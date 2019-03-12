@@ -22,7 +22,7 @@ const belongsToToArticleId = (articleRef, commentArr) => {
 };
 
 const formatDate = arr => arr.map((obj) => {
-  obj.created_at = new Date(+obj.created_at);
+  obj.created_at = new Date(+obj.created_at).toISOString();
   return obj;
 });
 
