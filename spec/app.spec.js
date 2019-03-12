@@ -11,8 +11,8 @@ const connection = require('../db/connection');
 
 
 describe('CRUD tests', () => {
-  beforeEach(() => { connection.seed.run(); });
-  after(() => { connection.destroy(); });
+  beforeEach(() => connection.seed.run());
+  after(() => connection.destroy());
 
   describe.only('/topics', () => {
     it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
@@ -27,22 +27,16 @@ describe('CRUD tests', () => {
             slug: 'cats',
           }]);
       }));
-    xit('POST returns 201, adds a topic to the database and sends the user the db with new topic included', () => {
-      const newTopic = { description: 'test', slug: 'cats' };
-      return request.post('/api/topics', newTopic).expect(201)
-        . then((res) => {
-          expect(res.body.topics).to.eql(
-            {
-              description: 'The man, the Mitch, the legend',
-              slug: 'mitch',
-            },
-            {
-              description: 'Not dogs',
-              slug: 'cats',
-            },
-          );
+    it('POST returns 201, adds a topic to the database and sends the user the new topic', () => {
+      const newTopic = { description: 'test desc', slug: 'test slug' };
+      return request.post('/api/topics').send(newTopic).expect(201)
+        .then((res) => {
+          expect(res.body.topics).to.eql([
+            { description: 'test desc', slug: 'test slug' },
+          ]);
         });
     });
+    //TEST TO SEE IF DATABASE NOW CONTAINS THE POSTED TOPIC??
   });
   describe('/users', () => {
     it('', () => {
