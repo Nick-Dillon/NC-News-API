@@ -22,11 +22,17 @@ const belongsToToArticleId = (articleRef, commentArr) => {
 };
 
 const formatDate = arr => arr.map((obj) => {
-  obj.created_at = new Date(+obj.created_at).toISOString();
+  obj.created_at = new Date(+obj.created_at);
   return obj;
 });
 
+const countComments = (arr) => {
+  
+}
+// needs article array
+// needs to count how many comments have same article id as the article
+// find the length of an array of comments, then push a new property ('comment_count') to each article object. The value will be the amount of comments that match the article id.
 
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, countComments
 };

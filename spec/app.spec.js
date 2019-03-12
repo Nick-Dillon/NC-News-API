@@ -50,6 +50,20 @@ describe('CRUD tests', () => {
         expect(res.body.articles.length).to.equal(12);
         expect(res.body.articles[0].title).to.equal('Living in the shadow of a great man');
       }));
+    it('GET returns 200, returns correct properties for each article', () => request.get('/api/articles').expect(200)
+      .then((res) => {
+        expect(res.body.articles[0]).include.keys('author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'comment_count');
+
+        /*
+        author which is the username from the users table
+title
+article_id
+topic
+created_at
+votes
+comment_count which is the total count of all the comments with this article_id - you should make use of knex queries in order to achieve this
+        */
+      }));
   });
   describe('/comments', () => {
     it('', () => {
