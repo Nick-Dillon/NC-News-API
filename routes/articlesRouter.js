@@ -1,7 +1,7 @@
-// const articlesRouter = require('express').Router();
-// const { /* controller functions */ } = require(/* controller file */);
+const articlesRouter = require('express').Router();
+const { fetchArticles } = require('../controllers/articlesControllers');
 
-// articlesRouter.get('/', /* links to controller function for GET */);
+articlesRouter.get('/', fetchArticles);
 // articlesRouter.get('/:article_id', /* links to controller function for GET specific article */);
 // articlesRouter.get('/:article_id/comments', /* links to controller function for GET comments for a specific article */)
 
@@ -13,4 +13,4 @@
 // articlesRouter.delete('/:article_id', /* links to controller function for DELETE specific article */);
 
 
-// module.exports = articlesRouter;
+module.exports = articlesRouter;

@@ -11,9 +11,10 @@ exports.postTopic = ((req, res, next) => {
   console.log('into the controller...');
   console.log(`the req body is ${req.body}`);
   return createTopic(req.body)
-    .then((topics) => {
+    .then(([topic]) => {
       console.log('back to the controller...');
-      console.log(topics);
-      return res.status(201).send({ topics });
+      // topic = topic[0];
+      console.log({ topic });
+      return res.status(201).send({ topic });
     });
 });

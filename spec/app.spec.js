@@ -14,7 +14,7 @@ describe('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe.only('/topics', () => {
+  describe('/topics', () => {
     it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
       .then((res) => {
         expect(res.body.topics).to.eql([
@@ -31,22 +31,25 @@ describe('CRUD tests', () => {
       const newTopic = { description: 'test desc', slug: 'test slug' };
       return request.post('/api/topics').send(newTopic).expect(201)
         .then((res) => {
-          expect(res.body.topics).to.eql([
+          console.log(res.body.topic);
+          expect(res.body.topic).to.eql(
             { description: 'test desc', slug: 'test slug' },
-          ]);
+          );
         });
     });
-    //TEST TO SEE IF DATABASE NOW CONTAINS THE POSTED TOPIC??
+    // TEST TO SEE IF DATABASE NOW CONTAINS THE POSTED TOPIC??
   });
   describe('/users', () => {
     it('', () => {
 
     });
   });
-  describe('/articles', () => {
-    it('', () => {
-
-    });
+  describe.only('/articles', () => {
+    it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
+      .then((res) => {
+        expect(res.body.articles.length).to.equal(12);
+        expect(res.body.articles[0].title).to.equal('Living in the shadow of a great man');
+      }));
   });
   describe('/comments', () => {
     it('', () => {
