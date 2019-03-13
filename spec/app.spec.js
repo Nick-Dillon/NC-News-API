@@ -104,6 +104,16 @@ describe.only('CRUD tests', () => {
         expect(res.body.comments[11].author).to.equal('butter_bridge');
         expect(res.body.comments[6].author).to.equal('icellusedkars');
       }));
+    it('POST status:201, adds a new comment and returns the posted comment', () => {
+      const newComment = { username: 'rogersop', body: 'this is my comment!' };
+      return request.post('/api/articles/2/comments').send(newComment).expect(201)
+        .then((res) => {
+          console.log(res.body);
+          expect(res.body.createdComment.author).to.equal('rogersop');
+          expect(res.body.createdComment.body).to.equal('this is my comment!');
+          expect(res.body.createdComment.article_id).to.equal(2);
+        });
+    });
   });
   describe('/api', () => {
     it('GET Status:200, responds with a stringified object describing available route and CRUD options', () => request.get('/api').expect(200)
