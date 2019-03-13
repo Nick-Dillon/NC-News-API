@@ -1,10 +1,10 @@
-// const usersRouter = require('express').Router();
-// const { /* controller functions */ } = require(/* controller file */);
+const usersRouter = require('express').Router();
+const { fetchUsers, postUser } = require('../controllers/usersControllers');
 
-// usersRouter.get('/', /* links to controller function for GET */);
+usersRouter.get('/', fetchUsers);
 // usersRouter.get('/:username', /* links to controller function for GET specific user */);
 
-// usersRouter.post('/', /* links to controller function for POST */);
+usersRouter.post('/', postUser);
 
 
-// module.exports = usersRouter;
+module.exports = usersRouter;
