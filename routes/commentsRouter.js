@@ -1,9 +1,9 @@
-// const commentsRouter = require('express').Router();
-// const { /* controller functions */ } = require(/* controller file */);
+const commentsRouter = require('express').Router();
+const voteOnComment = require('../controllers/commentsControllers');
 
-
-// commentsRouter.patch('/:comment_id', /* links to controller function for PATCH a specific comment */);
+console.log('into router');
+commentsRouter.patch('/:comment_id', voteOnComment);
 
 // commentsRouter.delete('/:comment_id', /* links to controller function to DELETE a specific comment */);
 
-// module.exports = commentsRouter;
+module.exports = commentsRouter;
