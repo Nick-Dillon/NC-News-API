@@ -113,13 +113,14 @@ describe.only('CRUD tests', () => {
           expect(res.body.createdComment.article_id).to.equal(2);
         });
     });
-    it.only('PATCH status:201, increases the vote by 1', () => {
-      const upvote = {inc_votes: 1}
+    it('PATCH status:201, increases the vote by 1', () => {
+      const upvote = { inc_votes: 1 };
       return request.patch('/api/comments/1').send(upvote).expect(201)
-      .then((res) => {
-        console.log(res.body);
-        expect(res.body.updatedComment.votes).to.equal(17);
-      })});
+        .then((res) => {
+          expect(res.body.updatedComment.votes).to.equal(17);
+        });
+    });
+    it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
   });
   describe('/api', () => {
     it('GET Status:200, responds with a stringified object describing available route and CRUD options', () => request.get('/api').expect(200)
