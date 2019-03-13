@@ -53,7 +53,7 @@ describe.only('CRUD tests', () => {
         expect(res.body.user.name).to.equal('paul');
       }));
   });
-  describe('/articles', () => {
+  describe.only('/articles', () => {
     it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
       .then((res) => {
         expect(res.body.articles.length).to.equal(12);
@@ -70,8 +70,25 @@ describe.only('CRUD tests', () => {
       .then((res) => {
         expect(res.body.articles.length).to.equal(3);
       }));
+    it.only('POST status:201, adds an article to the database and returns new article', () => {
+      const newArticle = {
+        title: 'Testing the post!', body: 'This is a boring article, move on...', topic: 'cats', username: 'rogersop',
+      };
+      return request.post('/api/articles').send(newArticle).expect(201)
+        .then((res) => {
+          expect(res.body.createdArticle.title).to.equal('Testing the post!');
+        });
+    });
+    // Request body accepts
+    // an object containing the following properties:
+    // title
+    // body
+    // topic
+    // username
+    // Responds with
+    // the posted article
   });
-  describe.only('/comments', () => {
+  describe('/comments', () => {
     it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
       .then((res) => {
         expect(res.body.comments.length).to.equal(13);
