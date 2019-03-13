@@ -44,25 +44,24 @@ describe('CRUD tests', () => {
 
     });
   });
-  describe.only('/articles', () => {
+  xdescribe('/articles', () => {
     it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
       .then((res) => {
         expect(res.body.articles.length).to.equal(12);
-        expect(res.body.articles[0].title).to.equal('Living in the shadow of a great man');
+        console.log(res.body.articles[0]);
       }));
     it('GET returns 200, returns correct properties for each article', () => request.get('/api/articles').expect(200)
       .then((res) => {
+        res.body.articles.forEach(article => console.log(article.title, article.comment_count));
         expect(res.body.articles[0]).include.keys('author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'comment_count');
-
-        /*
-        author which is the username from the users table
-title
-article_id
-topic
-created_at
-votes
-comment_count which is the total count of all the comments with this article_id - you should make use of knex queries in order to achieve this
-        */
+      }));
+    it('GET returns 200, returns correct count of comments for articles', () => request.get('/api/articles').expect(200)
+      .then((res) => {
+        expect(+res.body.articles[1].comment_count).to.equal(13);
+      }));
+    it('GET returns 200, accepts username query and returns articles by that user', () => request.get('/api/articles?username=rogersop').expect(200)
+      .then((res) => {
+        expect(res.body.articles.length).to.equal(3);
       }));
   });
   describe('/comments', () => {
@@ -71,3 +70,10 @@ comment_count which is the total count of all the comments with this article_id 
     });
   });
 });
+
+
+// Should accept queries
+// author, which filters the articles by the username value specified in the query
+// topic, which filters the articles by the topic value specified in the query
+// sort_by, which sorts the articles by any valid column (defaults to date)
+// order, which can be set to asc or desc for ascending or descending (defaults to descending)

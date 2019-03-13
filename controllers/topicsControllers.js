@@ -7,9 +7,5 @@ exports.fetchTopics = ((req, res, next) => {
     });
 });
 
-exports.postTopic = ((req, res, next) => {
-  return createTopic(req.body)
-    .then(([topic]) => {
-      return res.status(201).send({ topic });
-    });
-});
+exports.postTopic = ((req, res, next) => createTopic(req.body)
+  .then(([topic]) => res.status(201).send({ topic })));
