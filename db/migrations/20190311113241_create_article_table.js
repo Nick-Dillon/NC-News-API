@@ -9,7 +9,7 @@ exports.up = function (knex, Promise) {
     article_table.foreign('topic').references('slug').inTable('topics');
     article_table.string('author');
     article_table.foreign('author').references('username').on('users');
-    article_table.date('created_at').defaultTo(knex.fn.now());
+    article_table.datetime('created_at').defaultTo(knex.fn.now());
   });
 };
 

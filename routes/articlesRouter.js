@@ -1,9 +1,10 @@
 const articlesRouter = require('express').Router();
-const { fetchArticles } = require('../controllers/articlesControllers');
+const { fetchArticles, fetchArticleComments } = require('../controllers/articlesControllers');
 
 articlesRouter.get('/', fetchArticles);
 // articlesRouter.get('/:article_id', /* links to controller function for GET specific article */);
-// articlesRouter.get('/:article_id/comments', /* links to controller function for GET comments for a specific article */)
+
+articlesRouter.get('/:article_id/comments', fetchArticleComments);
 
 // articlesRouter.post('/', /* links to controller function for POST */);
 // articlesRouter.post('/:article_id/comments', /* links to controller function for POST comment to a specific article */);

@@ -48,7 +48,7 @@ describe.only('CRUD tests', () => {
           expect(res.body.createdUser).to.eql(newUser);
         });
     });
-    it.only('GET status:200, responds with specific user when defined', () => request.get('/api/users/rogersop').expect(200)
+    it('GET status:200, responds with specific user when defined', () => request.get('/api/users/rogersop').expect(200)
       .then((res) => {
         expect(res.body.user.name).to.equal('paul');
       }));
@@ -71,10 +71,39 @@ describe.only('CRUD tests', () => {
         expect(res.body.articles.length).to.equal(3);
       }));
   });
-  describe('/comments', () => {
-    it('', () => {
-
-    });
+  describe.only('/comments', () => {
+    it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
+      .then((res) => {
+        expect(res.body.comments.length).to.equal(13);
+      }));
+    it('GET Status:200, comments are default sorted by date, in descending order', () => request.get('/api/articles/1/comments').expect(200)
+      .then((res) => {
+        const date1 = new Date(res.body.comments[0].created_at);
+        const date2 = new Date(res.body.comments[1].created_at);
+        const date3 = new Date(res.body.comments[2].created_at);
+        const date4 = new Date(res.body.comments[3].created_at);
+        const date5 = new Date(res.body.comments[4].created_at);
+        expect(date2).to.be.below(date1);
+        expect(date3).to.be.below(date2);
+        expect(date4).to.be.below(date3);
+        expect(date5).to.be.below(date4);
+      }));
+    it('GET status:200, sorts by the requested column in the specified order', () => request.get('/api/articles/1/comments?sort_by=votes&order=asc').expect(200)
+      .then((res) => {
+        expect(res.body.comments[0].votes).to.be.at.most(res.body.comments[1].votes);
+        expect(res.body.comments[1].votes).to.be.at.most(res.body.comments[2].votes);
+        expect(res.body.comments[3].votes).to.be.at.most(res.body.comments[4].votes);
+        expect(res.body.comments[8].votes).to.be.at.most(res.body.comments[9].votes);
+        expect(res.body.comments[11].votes).to.be.at.most(res.body.comments[12].votes);
+      }));
+    it('GET status:200, sorts by a different requested column with no specified order', () => request.get('/api/articles/1/comments?sort_by=author').expect(200)
+      .then((res) => {
+        expect(res.body.comments[4].author).to.equal('icellusedkars');
+        expect(res.body.comments[0].author).to.equal('icellusedkars');
+        expect(res.body.comments[12].author).to.equal('butter_bridge');
+        expect(res.body.comments[11].author).to.equal('butter_bridge');
+        expect(res.body.comments[6].author).to.equal('icellusedkars');
+      }));
   });
   describe('/api', () => {
     it('GET Status:200, responds with a stringified object describing available route and CRUD options', () => request.get('/api').expect(200)
