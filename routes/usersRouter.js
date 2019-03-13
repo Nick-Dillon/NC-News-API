@@ -1,8 +1,8 @@
 const usersRouter = require('express').Router();
-const { fetchUsers, postUser } = require('../controllers/usersControllers');
+const { fetchUsers, fetchSingleUser, postUser } = require('../controllers/usersControllers');
 
 usersRouter.get('/', fetchUsers);
-// usersRouter.get('/:username', /* links to controller function for GET specific user */);
+usersRouter.get('/:username', fetchSingleUser);
 
 usersRouter.post('/', postUser);
 

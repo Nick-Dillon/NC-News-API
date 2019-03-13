@@ -48,11 +48,10 @@ describe.only('CRUD tests', () => {
           expect(res.body.createdUser).to.eql(newUser);
         });
     });
-    it('GET status:200, responds with specific user when defined', () => request.get('/api/users/rogersop').expect(200)
+    it.only('GET status:200, responds with specific user when defined', () => request.get('/api/users/rogersop').expect(200)
       .then((res) => {
-        expect(res.body.user.name).to.equal('paul')
-      })
-    );
+        expect(res.body.user.name).to.equal('paul');
+      }));
   });
   describe('/articles', () => {
     it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
