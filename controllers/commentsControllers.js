@@ -4,8 +4,12 @@ const voteOnComment = (req, res, next) => {
   const commentToUpdate = { id: req.params.comment_id, votes: req.body.inc_votes };
   return updateComment(commentToUpdate)
     .then(([updatedComment]) => {
+      if (updatedComment === undefined) {
+        return Promise.reject({ status: 404, message: 'Cannot patch nonexistent comment!' });
+      }
       res.status(201).send({ updatedComment });
-    });
+    })
+    .catch(next);
 };
 
 const deleteComment = (req, res, next) => {
@@ -19,13 +23,5 @@ const deleteComment = (req, res, next) => {
     })
     .catch(next);
 };
-
-// const deleteComment = (req, res, next) => {
-// const commentId = req.params.comment_id;
-// return removeComment(commentId)
-// .then(() => {
-// res.sendStatus(204);
-// });
-// };
 
 module.exports = { voteOnComment, deleteComment };

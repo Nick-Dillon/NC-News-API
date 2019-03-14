@@ -213,6 +213,10 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot delete nonexistent comment!');
         }));
+      it('NOT FOUND status:404, returns error when specific comment cannot be found to patch', () => request.patch('/api/comments/200').send({ inc_votes: 1 }).expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot patch nonexistent comment!');
+        }));
     });
   });
   describe('/api', () => {
