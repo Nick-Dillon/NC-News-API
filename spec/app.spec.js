@@ -62,13 +62,36 @@ describe.only('CRUD tests', () => {
       .then((res) => {
         expect(res.body.articles[0]).include.keys('author', 'title', 'article_id', 'topic', 'created_at', 'votes', 'comment_count');
       }));
-    it('GET returns 200, returns correct count of comments for articles', () => request.get('/api/articles').expect(200)
+    it('GET returns 200, returns correct count of comments for articles, and are sorted by created_at (desc) by default', () => request.get('/api/articles').expect(200)
       .then((res) => {
-        expect(+res.body.articles[1].comment_count).to.equal(13);
+        expect(+res.body.articles[0].comment_count).to.equal(13);
       }));
     it('GET returns 200, accepts username query and returns articles by that user', () => request.get('/api/articles?username=rogersop').expect(200)
       .then((res) => {
         expect(res.body.articles.length).to.equal(3);
+      }));
+    it('GET returns 200, accepts topic query and returns articles of that topic', () => request.get('/api/articles?topic=mitch').expect(200)
+      .then((res) => {
+        expect(res.body.articles.length).to.equal(11);
+      }));
+    it('GET returns 200, accepts sort_by query and returns articles sorted by a specific column', () => request.get('/api/articles?sort_by=title').expect(200)
+      .then((res) => {
+        expect(res.body.articles[0].title).to.equal('Z');
+        expect(res.body.articles[11].title).to.equal('A');
+      }));
+    it('GET returns 200, accepts order query and returns articles ordered by the query', () => request.get('/api/articles?order=asc').expect(200)
+      .then((res) => {
+        expect(res.body.articles[0].title).to.equal('Moustache');
+        expect(res.body.articles[11].article_id).to.equal(1);
+      }));
+    it('GET returns 200, accepts multiple queries', () => request.get('/api/articles?topic=mitch&order=asc&username=rogersop&sortBy=title').expect(200)
+      .then((res) => {
+        expect(res.body.articles.length).to.equal(2);
+        expect(res.body.articles[0].title).to.equal('Seven inspirational thought leaders from Manchester UK');
+        res.body.articles.forEach((article) => {
+          expect(article.topic).to.equal('mitch');
+          expect(article.author).to.equal('rogersop');
+        });
       }));
     it('POST status:201, adds an article to the database and returns new article', () => {
       const newArticle = {
@@ -79,9 +102,10 @@ describe.only('CRUD tests', () => {
           expect(res.body.createdArticle.title).to.equal('Testing the post!');
         });
     });
-    it.only('GET status:200, returns a specific artile by an id query', () => request.get('/api/articles/3').expect(200)
+    it('GET status:200, returns a specific artile by an id query', () => request.get('/api/articles/3').expect(200)
       .then((res) => {
         expect(res.body.article.title).to.equal('Eight pug gifs that remind me of mitch');
+        expect(res.body.article.comment_count).to.equal('0');
       }));
   });
   describe('/comments', () => {
