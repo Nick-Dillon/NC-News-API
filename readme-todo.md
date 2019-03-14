@@ -4,7 +4,7 @@ POST /api/topics      - DONE, may need further testing
 GET /api/articles     - DONE
 POST /api/articles    - DONE
 
-GET /api/articles/:article_id   - DONE
+GET /api/articles/:article_id   - DONE - Article not found 404 error DONE
 PATCH /api/articles/:article_id - DONE
 DELETE /api/articles/:article_id    - DONE
 

@@ -138,7 +138,11 @@ describe.only('CRUD tests', () => {
       it('DELETE status:204, deletes the article, and any associated comments, and returns status 204 only', () => request.delete('/api/articles/1').expect(204));
     });
     describe('/error handling', () => {
-      it.only('NOT FOUND status 404, returns an error message when cannot find specific article', () => request.get('/api/articles/20').expect(404)
+      it('NOT FOUND status 404, returns an error message when cannot find specific article', () => request.get('/api/articles/20').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Article not found!');
+        }));
+      it.only('NOT FOUND status 404, returns an error message when cannot find specific article to patch', () => request.patch('/api/articles/20').send({ inc_votes: 1 }).expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));

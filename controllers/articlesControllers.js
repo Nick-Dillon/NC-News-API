@@ -77,8 +77,12 @@ const voteOnArticle = (req, res, next) => {
   const vote = req.body.inc_votes;
   return updateArticle(id, vote)
     .then(([updatedArticle]) => {
+      if (updatedArticle === undefined) {
+        return Promise.reject({ status: 404, message: 'Article not found!' });
+      }
       res.status(201).send({ updatedArticle });
-    });
+    })
+    .catch(next);
 };
 
 const deleteArticle = (req, res, next) => {
