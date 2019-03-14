@@ -60,15 +60,12 @@ describe.only('CRUD tests', () => {
           expect(res.body.user.name).to.equal('paul');
         }));
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('NOT FOUND status:404, returns error when user is not found', () => request.get('/api/users/Nick-Dillon').expect(404)
         .then(({ body }) => {
-          // console.log(Object.keys(res))
-          console.log(body.body);
-          // console.log(res.message)
           expect(body.message).to.equal('User not found!');
         }));
-      xit('METHOD NOT ALLOWED status:405, returns error when a patch is requested', () => request.patch('/api/users/rogersop').send({ avatar_url: 'www.no.com' }).expect(405)
+      it('METHOD NOT ALLOWED status:405, returns error when a patch is requested', () => request.patch('/api/users/rogersop').send({ avatar_url: 'www.no.com' }).expect(405)
         .then((res) => {
           expect(res.body.message).to.equal('Method not allowed!');
         }));
@@ -198,10 +195,11 @@ describe.only('CRUD tests', () => {
       });
       it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
     });
-    describe('/error handling', () => {
-      it('', () => {
-
-      });
+    describe.only('/error handling', () => {
+      it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Comments not found!');
+        }));
     });
   });
   describe('/api', () => {
