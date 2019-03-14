@@ -70,7 +70,7 @@ describe.only('CRUD tests', () => {
       .then((res) => {
         expect(res.body.articles.length).to.equal(3);
       }));
-    it.only('POST status:201, adds an article to the database and returns new article', () => {
+    it('POST status:201, adds an article to the database and returns new article', () => {
       const newArticle = {
         title: 'Testing the post!', body: 'This is a boring article, move on...', topic: 'cats', username: 'rogersop',
       };
@@ -79,14 +79,10 @@ describe.only('CRUD tests', () => {
           expect(res.body.createdArticle.title).to.equal('Testing the post!');
         });
     });
-    // Request body accepts
-    // an object containing the following properties:
-    // title
-    // body
-    // topic
-    // username
-    // Responds with
-    // the posted article
+    it.only('GET status:200, returns a specific artile by an id query', () => request.get('/api/articles/3').expect(200)
+      .then((res) => {
+        expect(res.body.article.title).to.equal('Eight pug gifs that remind me of mitch');
+      }));
   });
   describe('/comments', () => {
     it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
