@@ -26,7 +26,13 @@ const formatDate = arr => arr.map((obj) => {
   return obj;
 });
 
+const columnChecker = (str) => {
+  if (str === 'author' || str === 'title' || str === 'article_id' || str === 'topic' || str === 'created_at' || str === 'votes' || str === 'comment_count') {
+    return true;
+  }
+  return false;
+};
 
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker,
 };

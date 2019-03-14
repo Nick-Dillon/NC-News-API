@@ -1,10 +1,13 @@
 const {
   getArticles, getArticleComments, createComment, createArticle, getSpecificArticle, updateArticle, removeArticle,
 } = require('../models/articlesModels');
-
+const { columnChecker } = require('../utils/refFunctions');
 
 const fetchArticles = (req, res, next) => {
   const { sort_by = 'created_at', order = 'desc' } = req.query;
+  if (!columnChecker(sort_by)) {
+    res.status(400).send({ message: 'Cannot sort articles by nonexistent column!' });
+  }
   const whereQueries = {};
   if (req.query.username) {
     whereQueries['articles.author'] = req.query.username;

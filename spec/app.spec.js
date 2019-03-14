@@ -12,7 +12,7 @@ describe.only('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe('/topics', () => {
+  describe.only('/topics', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
@@ -37,7 +37,7 @@ describe.only('CRUD tests', () => {
       });
     });
     describe('/error handling', () => {
-      it('', () => {
+      it('BAD REQUEST status:400', () => {
 
       });
     });
@@ -158,10 +158,10 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot find any articles about Northcoders!');
         }));
-
-      //         Should accept queries
-      // sort_by, which sorts the articles by any valid column (defaults to date)
-      // order, which can be set to asc or desc for ascending or descending (defaults to descending)
+      it('NOT FOUND status 400, returns an error when trying to sort by nonexistent column', () => request.get('/api/articles?sort_by=coolness').expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot sort articles by nonexistent column!');
+        }));
     });
   });
   describe('/comments', () => {

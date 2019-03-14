@@ -2,6 +2,11 @@ GET /api/topics       - DONE
 POST /api/topics      - DONE, may need further testing
 
 GET /api/articles     - DONE
+    Query tests - DONE
+        400: Cannot sort by nonexistent column
+        404: Cannot find any articles by author
+        404: Cannot find any articles about topic
+        400: Cannot sort columns by non-existent column
 POST /api/articles    - DONE
 
 GET /api/articles/:article_id   - DONE - Article not found 404 error DONE
