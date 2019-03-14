@@ -71,7 +71,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe('/articles', () => {
+  describe.only('/articles', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
         .then((res) => {
@@ -142,9 +142,13 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));
-      it.only('NOT FOUND status 404, returns an error message when cannot find specific article to patch', () => request.patch('/api/articles/20').send({ inc_votes: 1 }).expect(404)
+      it('NOT FOUND status 404, returns an error message when cannot find specific article to patch', () => request.patch('/api/articles/20').send({ inc_votes: 1 }).expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
+        }));
+      it('NOT FOUND status 404, returns an error message when cannot find specific article to delete', () => request.delete('/api/articles/20').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot delete nonexistent article!');
         }));
     });
   });
