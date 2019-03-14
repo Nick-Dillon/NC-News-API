@@ -53,7 +53,7 @@ describe.only('CRUD tests', () => {
         expect(res.body.user.name).to.equal('paul');
       }));
   });
-  describe.only('/articles', () => {
+  describe('/articles', () => {
     it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
       .then((res) => {
         expect(res.body.articles.length).to.equal(12);
@@ -107,6 +107,16 @@ describe.only('CRUD tests', () => {
         expect(res.body.article.title).to.equal('Eight pug gifs that remind me of mitch');
         expect(res.body.article.comment_count).to.equal('0');
       }));
+    it('PATCH status:201, returns a specific artile with a changed vote', () => request.patch('/api/articles/5').send({ inc_votes: 1 }).expect(201)
+      .then((res) => {
+        expect(res.body.updatedArticle.votes).to.equal(1);
+        expect(res.body.updatedArticle.title).to.equal('UNCOVERED: catspiracy to bring down democracy');
+      }));
+    it('PATCH status:201, returns a specific artile with a lower vote', () => request.patch('/api/articles/5').send({ inc_votes: -1 }).expect(201)
+      .then((res) => {
+        expect(res.body.updatedArticle.votes).to.equal(-1);
+      }));
+    it('DELETE status:204, deletes the article, and any associated comments, and returns status 204 only', () => request.delete('/api/articles/1').expect(204));
   });
   describe('/comments', () => {
     it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
