@@ -1,5 +1,6 @@
 GET /api/topics       - DONE
 POST /api/topics      - DONE, may need further testing
+                            - Not enough data given 400 error DONE
 
 GET /api/articles     - DONE
     Query tests - DONE

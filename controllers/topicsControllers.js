@@ -7,5 +7,13 @@ exports.fetchTopics = ((req, res, next) => {
     });
 });
 
-exports.postTopic = ((req, res, next) => createTopic(req.body)
-  .then(([topic]) => res.status(201).send({ topic })));
+exports.postTopic = ((req, res, next) => {
+  if (req.body.slug === undefined || req.body.description === undefined) {
+    return Promise.reject({ status: 400, message: 'Missing information from the post request!' }).catch(next);
+  }
+  return createTopic(req.body)
+    .then(([topic]) => {
+      res.status(201).send({ topic });
+    })
+    .catch(next);
+});

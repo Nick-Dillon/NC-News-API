@@ -37,9 +37,10 @@ describe.only('CRUD tests', () => {
       });
     });
     describe('/error handling', () => {
-      it('BAD REQUEST status:400', () => {
-
-      });
+      it('BAD REQUEST status:400, returns error messag when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Missing information from the post request!');
+        }));
     });
   });
   describe('/users', () => {
