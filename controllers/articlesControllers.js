@@ -87,11 +87,11 @@ const voteOnArticle = (req, res, next) => {
 
 const deleteArticle = (req, res, next) => {
   const id = req.params.article_id;
-  return Promise.all([getSpecificArticle(id), removeArticle(id)])
-    .then(([article]) => {
-      if (article.length === 0) {
-        return Promise.reject({ status: 404, message: 'Cannot delete nonexistent article!'})
-      } else res.sendStatus(204)
+  return removeArticle(id)
+    .then((deleteResponse) => {
+      if (deleteResponse === 0) {
+        return Promise.reject({ status: 404, message: 'Cannot delete nonexistent article!' });
+      } res.sendStatus(204);
     })
     .catch(next);
 };

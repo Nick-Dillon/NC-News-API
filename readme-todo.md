@@ -6,13 +6,13 @@ POST /api/articles    - DONE
 
 GET /api/articles/:article_id   - DONE - Article not found 404 error DONE
 PATCH /api/articles/:article_id - DONE - Article not found 404 error DONE
-DELETE /api/articles/:article_id    - DONE
+DELETE /api/articles/:article_id    - DONE - Article not found 404 error DONE
 
 GET /api/articles/:article_id/comments - DONE - Comments not found 404 error DONE
 POST /api/articles/:article_id/comments - DONE
 
 PATCH /api/comments/:comment_id - DONE
-DELETE /api/comments/:comment_id - DONE
+DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 
 GET /api/users          - DONE
 POST /api/users         - DONE

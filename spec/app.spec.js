@@ -71,7 +71,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe.only('/articles', () => {
+  describe('/articles', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
         .then((res) => {
@@ -208,6 +208,10 @@ describe.only('CRUD tests', () => {
       it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Comments not found!');
+        }));
+      it('NOT FOUND status:404, returns error when specific comment cannot be found to be deleted', () => request.delete('/api/comments/200').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot delete nonexistent comment!');
         }));
     });
   });
