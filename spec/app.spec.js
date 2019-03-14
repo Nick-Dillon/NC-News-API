@@ -138,9 +138,10 @@ describe.only('CRUD tests', () => {
       it('DELETE status:204, deletes the article, and any associated comments, and returns status 204 only', () => request.delete('/api/articles/1').expect(204));
     });
     describe('/error handling', () => {
-      it('', () => {
-
-      });
+      it.only('NOT FOUND status 404, returns an error message when cannot find specific article', () => request.get('/api/articles/20').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Article not found!');
+        }));
     });
   });
   describe('/comments', () => {
@@ -195,7 +196,7 @@ describe.only('CRUD tests', () => {
       });
       it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Comments not found!');

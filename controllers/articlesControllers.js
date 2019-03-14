@@ -64,8 +64,12 @@ const fetchSpecificArticle = (req, res, next) => {
   const articleId = req.params.article_id;
   return getSpecificArticle(articleId)
     .then(([article]) => {
+      if (article === undefined) {
+        return Promise.reject({ status: 404, message: 'Article not found!' });
+      }
       res.status(200).send({ article });
-    });
+    })
+    .catch(next);
 };
 
 const voteOnArticle = (req, res, next) => {
