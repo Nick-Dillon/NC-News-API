@@ -14,11 +14,22 @@ const fetchArticles = (req, res, next) => {
   }
   getArticles(whereQueries, sort_by, order)
     .then((articles) => {
+      if (req.query.author) {
+        const noAuthor = articles.every(article => article.author !== req.query.author);
+        if (noAuthor === true) {
+          return Promise.reject({ status: 404, message: `Cannot find any articles by ${req.query.author}!` });
+        }
+      }
+      if (req.query.topic) {
+        const noTopic = articles.every(article => article.topic !== req.query.topic);
+        if (noTopic === true) {
+          return Promise.reject({ status: 404, message: `Cannot find any articles about ${req.query.topic}!` });
+        }
+      }
+
       res.status(200).send({ articles });
     })
-    .catch((err) => {
-      console.log(err);
-    });
+    .catch(next);
 };
 
 const fetchArticleComments = (req, res, next) => {

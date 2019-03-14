@@ -150,6 +150,18 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot delete nonexistent article!');
         }));
+      it('NOT FOUND status 404, returns an error when cannot find specific author', () => request.get('/api/articles?author=Nick-Dillon').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot find any articles by Nick-Dillon!');
+        }));
+      it('NOT FOUND status 404, returns an error when cannot find specific topic', () => request.get('/api/articles?topic=Northcoders').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot find any articles about Northcoders!');
+        }));
+
+      //         Should accept queries
+      // sort_by, which sorts the articles by any valid column (defaults to date)
+      // order, which can be set to asc or desc for ascending or descending (defaults to descending)
     });
   });
   describe('/comments', () => {
