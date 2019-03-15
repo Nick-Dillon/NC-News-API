@@ -50,6 +50,11 @@ const checkCommentKeys = (body) => {
   return false;
 };
 
+const checkCommentKeysDataTypes = (body) => {
+  if (typeof body.username === 'string' && typeof body.body === 'string') return true;
+  return false;
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes,
 };

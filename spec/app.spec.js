@@ -183,7 +183,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe('/comments', () => {
+  describe.only('/comments', () => {
     describe('/requests', () => {
       it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
         .then((res) => {
@@ -235,7 +235,7 @@ describe.only('CRUD tests', () => {
       });
       it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Comments not found!');
@@ -251,6 +251,10 @@ describe.only('CRUD tests', () => {
       it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop' }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
+        }));
+      it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: 12345 }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));
     });
   });

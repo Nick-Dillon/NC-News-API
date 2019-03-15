@@ -2,7 +2,7 @@ const {
   getArticles, getArticleComments, createComment, createArticle, getSpecificArticle, updateArticle, removeArticle,
 } = require('../models/articlesModels');
 const {
-  columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys,
+  columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes,
 } = require('../utils/refFunctions');
 
 const fetchArticles = (req, res, next) => {
@@ -60,6 +60,7 @@ const fetchArticleComments = (req, res, next) => {
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
   if (!checkCommentKeys(req.body)) return Promise.reject({ status: 400, message: 'Missing information from the post request!' }).catch(next);
+  if (!checkCommentKeysDataTypes(req.body)) return Promise.reject({ status: 400, message: 'Invalid type of data given for post request - make sure to use the correct data-types!' }).catch(next);
   const comment = { body: req.body.body, author: req.body.username, article_id };
   createComment(comment)
     .then(([createdComment]) => {
