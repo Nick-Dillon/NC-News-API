@@ -36,7 +36,7 @@ describe.only('CRUD tests', () => {
           });
       });
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
@@ -44,6 +44,10 @@ describe.only('CRUD tests', () => {
       it('BAD METHOD status:405, returns error message when using a method not allowed', () => request.delete('/api/topics/cats').expect(405)
         .then((res) => {
           expect(res.body.message).to.equal('Method not allowed!');
+        }));
+      it('BAD REQUEST status:400, returns error message when post request has wrong data type(s)', () => request.post('/api/topics').send({ slug: 123, description: 'This should fail!' }).expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));
     });
   });
@@ -76,7 +80,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe.only('/articles', () => {
+  describe('/articles', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
         .then((res) => {
