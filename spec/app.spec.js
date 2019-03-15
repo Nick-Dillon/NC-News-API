@@ -171,6 +171,12 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
         }));
+      it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/articles').send({
+        title: true, topic: 'cats', body: 123, username: 'rogersop',
+      }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
+        }));
     });
   });
   describe('/comments', () => {

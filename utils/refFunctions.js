@@ -38,6 +38,14 @@ const checkArticleKeys = (body) => {
   return false;
 };
 
+const checkKeysDataTypes = (body) => {
+  if (typeof body.title === 'string' && typeof body.body === 'string' && typeof body.topic === 'string' && typeof body.username === 'string') {
+    console.log('hi');
+    return true;
+  }
+  return false;
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkKeysDataTypes,
 };
