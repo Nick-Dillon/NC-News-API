@@ -4,6 +4,7 @@ GET /api/topics       - DONE
 POST /api/topics      - DONE, may need further testing
                             - Not enough data given 400 error DONE
                             - Incorrect data type given 400 error DONE
+                            - Duplicate topic post attempted 422 error DONE
 
         Other tests -
         405: Cannot use specific method

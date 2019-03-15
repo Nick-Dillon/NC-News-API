@@ -22,10 +22,20 @@ const handle405 = (err, req, res, next) => {
   }
 };
 
+const handle422 = (err, req, res, next) => {
+  const codes = {
+    23505: 'Sorry, that already exists!',
+  };
+  if (codes[err.code]) res.status(422).send({ message: codes[err.code] });
+  else {
+    next(err);
+  }
+};
+
 const handle500 = (err, req, res, next) => {
-  if (err.status === 500) res.status(500).send({ message: 'Something went wrong on our end, sorry!' });
+  res.status(500).send({ message: 'Something went wrong on our end, sorry!' });
 };
 
 module.exports = {
-  handle400, handle404, handle405, handle500,
+  handle400, handle404, handle405, handle422, handle500
 };

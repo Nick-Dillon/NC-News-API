@@ -5,7 +5,7 @@ const app = express();
 
 const apiRouter = require('./routes/apiRouter.js');
 const {
-  handle400, handle404, handle405, handle500,
+  handle400, handle404, handle405, handle422, handle500,
 } = require('./errors/errorFunctions');
 
 app.use(bodyParser.json());
@@ -15,6 +15,7 @@ app.use('/api', apiRouter);
 app.use(handle400);
 app.use(handle404);
 app.use(handle405);
+app.use(handle422);
 
 app.all('/*', handle500);
 

@@ -12,7 +12,7 @@ describe.only('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe('/topics', () => {
+  describe.only('/topics', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
@@ -48,6 +48,10 @@ describe.only('CRUD tests', () => {
       it('BAD REQUEST status:400, returns error message when post request has wrong data type(s)', () => request.post('/api/topics').send({ slug: 123, description: 'This should fail!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
+        }));
+      it('DUPLICATION status:422, returns message stating topic already exists', () => request.post('/api/topics').send({ slug: 'cats', description: 'This should fail!' }).expect(422)
+        .then((res) => {
+          expect(res.body.message).to.equal('Sorry, that already exists!');
         }));
     });
   });
@@ -183,7 +187,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe.only('/comments', () => {
+  describe('/comments', () => {
     describe('/requests', () => {
       it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
         .then((res) => {
