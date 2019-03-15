@@ -171,6 +171,16 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));
+      // ///////////////////////
+      it.only('BAD REQUEST status:400, returns error when trying to patch anything but the votes', () => request.patch('/api/articles/1').send({ inc_votes: 1, body: 'should fail' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
+        }));
+      it.only('BAD REQUEST status:400, returns error vote value is not a typeof number', () => request.patch('/api/articles/1').send({ inc_votes: 'one' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
+        }));
+      // /////////////
       it('NOT FOUND status 404, returns an error message when cannot find specific article to delete', () => request.delete('/api/articles/20').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot delete nonexistent article!');
@@ -263,6 +273,14 @@ describe('CRUD tests', () => {
       it('NOT FOUND status:404, returns error when specific comment cannot be found to patch', () => request.patch('/api/comments/200').send({ inc_votes: 1 }).expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot patch nonexistent comment!');
+        }));
+      it('BAD REQUEST status:400, returns error when trying to patch anything but the votes', () => request.patch('/api/comments/1').send({ inc_votes: 1, body: 'should fail' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
+        }));
+      it('BAD REQUEST status:400, returns error vote value is not a typeof number', () => request.patch('/api/comments/1').send({ inc_votes: 'one' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
         }));
       it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop' }).expect(400)
         .then(({ body }) => {

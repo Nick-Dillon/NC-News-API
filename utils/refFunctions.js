@@ -68,6 +68,14 @@ const checkUserKeysDataTypes = (body) => {
   return false;
 };
 
+const checkPatchAttempt = (body) => {
+  if (body.hasOwnProperty('inc_votes')) {
+    if (Object.keys(body).length > 1) return false;
+    if (typeof body.inc_votes !== 'number') return false;
+    return true;
+  }
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys, checkUserKeysDataTypes,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys, checkUserKeysDataTypes, checkPatchAttempt,
 };

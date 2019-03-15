@@ -20,6 +20,8 @@ POST /api/articles    - DONE - Missing info from request 400 error DONE
 
 GET /api/articles/:article_id   - DONE - Article not found 404 error DONE
 PATCH /api/articles/:article_id - DONE - Article not found 404 error DONE
+                                       - Invalid patch request (trying to patch more than the vote) 400 error DONE
+                                       - Invalid patch request (vote is not given a number) 400 error DONE
 DELETE /api/articles/:article_id    - DONE - Article not found 404 error DONE
 
 GET /api/articles/:article_id/comments - DONE - Comments not found 404 error DONE
@@ -27,6 +29,8 @@ POST /api/articles/:article_id/comments - DONE - Missing info from request 400 e
                                                  Incorrect data type given 400 error DONE
 
 PATCH /api/comments/:comment_id - DONE - Comment not found 404 error DONE
+                                        - Invalid patch request (trying to patch more than the vote) 400 error DONE
+                                        - Invalid patch request (vote is not given a number) 400 error DONE
 DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 
 USERS DONE
@@ -41,4 +45,4 @@ POST /api/users         - DONE - Duplicate user post attempted 422 error DONE
 GET /api/users/:username - DONE - User not found 404 error DONE
 /-----------------------
 
-GET /api                - DONE
+GET /api                - DONE - Invalid path 404 error DONE

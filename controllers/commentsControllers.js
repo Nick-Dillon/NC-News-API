@@ -1,15 +1,19 @@
 const { updateComment, removeComment } = require('../models/commentsModels');
+const { checkPatchAttempt } = require('../utils/refFunctions');
 
 const voteOnComment = (req, res, next) => {
-  const commentToUpdate = { id: req.params.comment_id, votes: req.body.inc_votes };
-  return updateComment(commentToUpdate)
-    .then(([updatedComment]) => {
-      if (updatedComment === undefined) {
-        return Promise.reject({ status: 404, message: 'Cannot patch nonexistent comment!' });
-      }
-      res.status(201).send({ updatedComment });
-    })
-    .catch(next);
+  if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
+  else {
+    const commentToUpdate = { id: req.params.comment_id, votes: req.body.inc_votes };
+    return updateComment(commentToUpdate)
+      .then(([updatedComment]) => {
+        if (updatedComment === undefined) {
+          return Promise.reject({ status: 404, message: 'Cannot patch nonexistent comment!' });
+        }
+        res.status(201).send({ updatedComment });
+      })
+      .catch(next);
+  }
 };
 
 const deleteComment = (req, res, next) => {

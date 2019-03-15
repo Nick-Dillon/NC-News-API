@@ -2,7 +2,7 @@ const {
   getArticles, getArticleComments, createComment, createArticle, getSpecificArticle, updateArticle, removeArticle,
 } = require('../models/articlesModels');
 const {
-  columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes,
+  columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkPatchAttempt,
 } = require('../utils/refFunctions');
 
 const fetchArticles = (req, res, next) => {
@@ -96,17 +96,21 @@ const fetchSpecificArticle = (req, res, next) => {
 };
 
 const voteOnArticle = (req, res, next) => {
-  const id = req.params.article_id;
-  const vote = req.body.inc_votes;
-  return updateArticle(id, vote)
-    .then(([updatedArticle]) => {
-      if (updatedArticle === undefined) {
-        return Promise.reject({ status: 404, message: 'Article not found!' });
-      }
-      res.status(201).send({ updatedArticle });
-    })
-    .catch(next);
+  if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
+  else {
+    const id = req.params.article_id;
+    const vote = req.body.inc_votes;
+    return updateArticle(id, vote)
+      .then(([updatedArticle]) => {
+        if (updatedArticle === undefined) {
+          return Promise.reject({ status: 404, message: 'Article not found!' });
+        }
+        res.status(201).send({ updatedArticle });
+      })
+      .catch(next);
+  }
 };
+
 
 const deleteArticle = (req, res, next) => {
   const id = req.params.article_id;
