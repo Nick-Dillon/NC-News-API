@@ -36,7 +36,7 @@ describe.only('CRUD tests', () => {
           });
       });
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
@@ -235,7 +235,7 @@ describe.only('CRUD tests', () => {
       });
       it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Comments not found!');
@@ -247,6 +247,10 @@ describe.only('CRUD tests', () => {
       it('NOT FOUND status:404, returns error when specific comment cannot be found to patch', () => request.patch('/api/comments/200').send({ inc_votes: 1 }).expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot patch nonexistent comment!');
+        }));
+      it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Missing information from the post request!');
         }));
     });
   });

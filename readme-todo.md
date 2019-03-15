@@ -23,7 +23,7 @@ PATCH /api/articles/:article_id - DONE - Article not found 404 error DONE
 DELETE /api/articles/:article_id    - DONE - Article not found 404 error DONE
 
 GET /api/articles/:article_id/comments - DONE - Comments not found 404 error DONE
-POST /api/articles/:article_id/comments - DONE
+POST /api/articles/:article_id/comments - DONE - Missing info from request 400 error DONE
 
 PATCH /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE

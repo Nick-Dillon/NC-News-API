@@ -38,13 +38,18 @@ const checkArticleKeys = (body) => {
   return false;
 };
 
-const checkKeysDataTypes = (body) => {
+const checkArticleKeysDataTypes = (body) => {
   if (typeof body.title === 'string' && typeof body.body === 'string' && typeof body.topic === 'string' && typeof body.username === 'string') {
     return true;
   }
   return false;
 };
 
+const checkCommentKeys = (body) => {
+  if (body.hasOwnProperty('username') && body.hasOwnProperty('body')) return true;
+  return false;
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkKeysDataTypes,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys,
 };

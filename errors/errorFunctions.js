@@ -22,4 +22,10 @@ const handle405 = (err, req, res, next) => {
   }
 };
 
-module.exports = { handle400, handle404, handle405 };
+const handle500 = (err, req, res, next) => {
+  if (err.status === 500) res.status(500).send({ message: 'Something went wrong on our end, sorry!' });
+};
+
+module.exports = {
+  handle400, handle404, handle405, handle500,
+};
