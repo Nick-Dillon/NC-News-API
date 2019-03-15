@@ -1,7 +1,7 @@
 const {
   getArticles, getArticleComments, createComment, createArticle, getSpecificArticle, updateArticle, removeArticle,
 } = require('../models/articlesModels');
-const { columnChecker } = require('../utils/refFunctions');
+const { columnChecker, checkArticleKeys } = require('../utils/refFunctions');
 
 const fetchArticles = (req, res, next) => {
   const { sort_by = 'created_at', order = 'desc' } = req.query;
@@ -65,13 +65,15 @@ const postComment = (req, res, next) => {
 };
 
 const postArticle = (req, res, next) => {
+  if (!checkArticleKeys(req.body)) res.status(400).send({ message: 'Missing information from the post request!' });
   const newArticle = {
     title: req.body.title, body: req.body.body, topic: req.body.topic, author: req.body.username,
   };
   return createArticle(newArticle)
     .then(([createdArticle]) => {
       res.status(201).send({ createdArticle });
-    });
+    })
+    .catch(next);
 };
 
 const fetchSpecificArticle = (req, res, next) => {

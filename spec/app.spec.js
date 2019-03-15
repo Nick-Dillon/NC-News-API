@@ -42,9 +42,9 @@ describe.only('CRUD tests', () => {
           expect(res.body.message).to.equal('Missing information from the post request!');
         }));
       it('BAD METHOD status:405, returns error message when using a method not allowed', () => request.delete('/api/topics/cats').expect(405)
-      .then((res) => {
-        expect(res.body.message).to.equal('Method not allowed!');
-      }));
+        .then((res) => {
+          expect(res.body.message).to.equal('Method not allowed!');
+        }));
     });
   });
   describe('/users', () => {
@@ -76,7 +76,7 @@ describe.only('CRUD tests', () => {
         }));
     });
   });
-  describe('/articles', () => {
+  describe.only('/articles', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all articles to the user', () => request.get('/api/articles').expect(200)
         .then((res) => {
@@ -166,6 +166,10 @@ describe.only('CRUD tests', () => {
       it('NOT FOUND status 400, returns an error when trying to sort by nonexistent column', () => request.get('/api/articles?sort_by=coolness').expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot sort articles by nonexistent column!');
+        }));
+      it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/articles').send({ title: 'bad article', topic: 'cats' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Missing information from the post request!');
         }));
     });
   });

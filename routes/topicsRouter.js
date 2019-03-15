@@ -1,5 +1,5 @@
 const topicsRouter = require('express').Router();
-const { fetchTopics, postTopic, methodNotAllowed} = require('../controllers/topicsControllers');
+const { fetchTopics, postTopic, methodNotAllowed } = require('../controllers/topicsControllers');
 
 topicsRouter.get('/', fetchTopics);
 

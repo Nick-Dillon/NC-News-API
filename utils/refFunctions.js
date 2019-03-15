@@ -33,6 +33,11 @@ const columnChecker = (str) => {
   return false;
 };
 
+const checkArticleKeys = (body) => {
+  if (body.hasOwnProperty('title') && body.hasOwnProperty('body') && body.hasOwnProperty('topic') && body.hasOwnProperty('username')) return true;
+  return false;
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys,
 };

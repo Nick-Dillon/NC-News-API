@@ -6,13 +6,14 @@ POST /api/topics      - DONE, may need further testing
         Other tests -
         405: Cannot use specific method
 /---------------
+
+
 GET /api/articles     - DONE
     Query tests - DONE
         400: Cannot sort by nonexistent column
         404: Cannot find any articles by author
         404: Cannot find any articles about topic
-        400: Cannot sort columns by non-existent column
-POST /api/articles    - DONE
+POST /api/articles    - DONE - Missing info from request 400 error DONE
 
 GET /api/articles/:article_id   - DONE - Article not found 404 error DONE
 PATCH /api/articles/:article_id - DONE - Article not found 404 error DONE
