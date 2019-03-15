@@ -8,7 +8,7 @@ const request = supertest(app);
 const connection = require('../db/connection');
 
 
-describe.only('CRUD tests', () => {
+describe('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
@@ -73,7 +73,7 @@ describe.only('CRUD tests', () => {
           expect(res.body.user.name).to.equal('paul');
         }));
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('NOT FOUND status:404, returns error when user is not found', () => request.get('/api/users/Nick-Dillon').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('User not found!');
@@ -298,7 +298,7 @@ describe.only('CRUD tests', () => {
   describe('/universal error handling', () => {
     it('NOT FOUND status:404, returns error message if bad path is given', () => request.get('/ay_pee_eye').expect(404)
       .then((err) => {
-        expect(err.message).to.equal('Path not found!');
+        expect(err.body.message).to.equal('Path not found!');
       }));
   });
 });
