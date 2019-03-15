@@ -12,7 +12,7 @@ describe.only('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe.only('/topics', () => {
+  describe('/topics', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
@@ -37,10 +37,14 @@ describe.only('CRUD tests', () => {
       });
     });
     describe('/error handling', () => {
-      it('BAD REQUEST status:400, returns error messag when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
+      it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
         }));
+      it('BAD METHOD status:405, returns error message when using a method not allowed', () => request.delete('/api/topics/cats').expect(405)
+      .then((res) => {
+        expect(res.body.message).to.equal('Method not allowed!');
+      }));
     });
   });
   describe('/users', () => {

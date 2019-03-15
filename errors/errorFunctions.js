@@ -15,4 +15,11 @@ const handle404 = (err, req, res, next) => {
   }
 };
 
-module.exports = { handle400, handle404 };
+const handle405 = (err, req, res, next) => {
+  if (err.status === 405) res.status(405).send({ message: err.message });
+  else {
+    next(err);
+  }
+};
+
+module.exports = { handle400, handle404, handle405 };

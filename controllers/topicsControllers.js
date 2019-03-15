@@ -17,3 +17,5 @@ exports.postTopic = ((req, res, next) => {
     })
     .catch(next);
 });
+
+exports.methodNotAllowed = (req, res, next) => res.status(405).send({ message: 'Method not allowed!' }).catch(next);

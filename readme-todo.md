@@ -1,7 +1,11 @@
+TOPICS DONE
+/---------------
 GET /api/topics       - DONE
 POST /api/topics      - DONE, may need further testing
                             - Not enough data given 400 error DONE
-
+        Other tests -
+        405: Cannot use specific method
+/---------------
 GET /api/articles     - DONE
     Query tests - DONE
         400: Cannot sort by nonexistent column
@@ -22,6 +26,8 @@ DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 
 GET /api/users          - DONE
 POST /api/users         - DONE
+        Other tests - 
+        405: Cannot use specific method
 
 GET /api/users/:username - DONE - User not found 404 error DONE
 
