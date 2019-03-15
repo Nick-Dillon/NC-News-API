@@ -172,11 +172,11 @@ describe('CRUD tests', () => {
           expect(body.message).to.equal('Article not found!');
         }));
       // ///////////////////////
-      it.only('BAD REQUEST status:400, returns error when trying to patch anything but the votes', () => request.patch('/api/articles/1').send({ inc_votes: 1, body: 'should fail' }).expect(400)
+      it('BAD REQUEST status:400, returns error when trying to patch anything but the votes', () => request.patch('/api/articles/1').send({ inc_votes: 1, body: 'should fail' }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
         }));
-      it.only('BAD REQUEST status:400, returns error vote value is not a typeof number', () => request.patch('/api/articles/1').send({ inc_votes: 'one' }).expect(400)
+      it('BAD REQUEST status:400, returns error vote value is not a typeof number', () => request.patch('/api/articles/1').send({ inc_votes: 'one' }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
         }));
