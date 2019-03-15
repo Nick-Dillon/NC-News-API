@@ -1,10 +1,9 @@
 TOPICS DONE
 /---------------
 GET /api/topics       - DONE
-POST /api/topics      - DONE, may need further testing
-                            - Not enough data given 400 error DONE
-                            - Incorrect data type given 400 error DONE
-                            - Duplicate topic post attempted 422 error DONE
+POST /api/topics      - DONE - Not enough data given 400 error DONE
+                             - Incorrect data type given 400 error DONE
+                             - Duplicate topic post attempted 422 error DONE
 
         Other tests -
         405: Cannot use specific method
@@ -30,12 +29,16 @@ POST /api/articles/:article_id/comments - DONE - Missing info from request 400 e
 PATCH /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 
+USERS DONE
+/-----------------------
 GET /api/users          - DONE
 POST /api/users         - DONE - Duplicate user post attempted 422 error DONE
                                - Not enough data given 400 error DONE
+                               - Incorrect data type given 400 error DONE
         Other tests - 
         405: Cannot use specific method
 
 GET /api/users/:username - DONE - User not found 404 error DONE
+/-----------------------
 
 GET /api                - DONE

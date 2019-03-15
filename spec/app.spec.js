@@ -86,6 +86,10 @@ describe.only('CRUD tests', () => {
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
         }));
+      it('BAD REQUEST status:400, returns message stating wrong data types entered for posting user', () => request.post('/api/users').send({ username: 'Nick-Dillon', avatar_url: 'www.nope.com', name: 123 }).expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
+        }));
       it('DUPLICATION status:422, returns message stating user already exists', () => request.post('/api/users').send({ username: 'rogersop', avatar_url: 'www.nope.com', name: 'Fail McFailface' }).expect(422)
         .then((res) => {
           expect(res.body.message).to.equal('Sorry, that already exists!');

@@ -60,6 +60,14 @@ const checkUserKeys = (body) => {
   return false;
 };
 
+const checkUserKeysDataTypes = (body) => {
+  if (body.hasOwnProperty('avatar_url')) {
+    if (typeof body.avatar_url !== 'string') return false;
+  }
+  if (typeof body.username === 'string' && typeof body.name === 'string') return true;
+  return false;
+};
+
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys, checkUserKeysDataTypes,
 };
