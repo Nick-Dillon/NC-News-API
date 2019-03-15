@@ -31,7 +31,8 @@ PATCH /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 DELETE /api/comments/:comment_id - DONE - Comment not found 404 error DONE
 
 GET /api/users          - DONE
-POST /api/users         - DONE
+POST /api/users         - DONE - Duplicate user post attempted 422 error DONE
+                               - Not enough data given 400 error DONE
         Other tests - 
         405: Cannot use specific method
 

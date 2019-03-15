@@ -1,4 +1,5 @@
 const { getUsers, getSingleUser, createUser } = require('../models/usersModels');
+const { checkUserKeys } = require('../utils/refFunctions');
 
 exports.fetchUsers = (req, res, next) => {
   getUsers()
@@ -19,8 +20,9 @@ exports.fetchSingleUser = (req, res, next) => {
 };
 
 exports.postUser = (req, res, next) => {
+  if (!checkUserKeys(req.body)) next({ status: 400, message: 'Missing information from the post request!' });
   createUser(req.body)
-    .then(([createdUser]) => res.status(201).send({ createdUser }));
+    .then(([createdUser]) => res.status(201).send({ createdUser })).catch(next);
 };
 
 exports.methodNotAllowed = (req, res, next) => res.status(405).send({ message: 'Method not allowed!' }).catch(next);

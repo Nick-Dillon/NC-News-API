@@ -37,5 +37,5 @@ const handle500 = (err, req, res, next) => {
 };
 
 module.exports = {
-  handle400, handle404, handle405, handle422, handle500
+  handle400, handle404, handle405, handle422, handle500,
 };

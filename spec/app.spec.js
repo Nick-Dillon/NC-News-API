@@ -12,7 +12,7 @@ describe.only('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe.only('/topics', () => {
+  describe('/topics', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
@@ -73,7 +73,7 @@ describe.only('CRUD tests', () => {
           expect(res.body.user.name).to.equal('paul');
         }));
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('NOT FOUND status:404, returns error when user is not found', () => request.get('/api/users/Nick-Dillon').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('User not found!');
@@ -81,6 +81,14 @@ describe.only('CRUD tests', () => {
       it('METHOD NOT ALLOWED status:405, returns error when a patch is requested', () => request.patch('/api/users/rogersop').send({ avatar_url: 'www.no.com' }).expect(405)
         .then((res) => {
           expect(res.body.message).to.equal('Method not allowed!');
+        }));
+      it('BAD REQUEST status:400, returns message stating not enough info given for posting user', () => request.post('/api/users').send({ username: 'Nick-Dillon', avatar_url: 'www.nope.com' }).expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Missing information from the post request!');
+        }));
+      it('DUPLICATION status:422, returns message stating user already exists', () => request.post('/api/users').send({ username: 'rogersop', avatar_url: 'www.nope.com', name: 'Fail McFailface' }).expect(422)
+        .then((res) => {
+          expect(res.body.message).to.equal('Sorry, that already exists!');
         }));
     });
   });
