@@ -25,6 +25,8 @@ PATCH /api/articles/:article_id - DONE - Article not found 404 error DONE
 DELETE /api/articles/:article_id    - DONE - Article not found 404 error DONE
 
 GET /api/articles/:article_id/comments - DONE - Comments not found 404 error DONE
+        Query tests - DONE
+                400: Cannot sort by nonexistent column
 POST /api/articles/:article_id/comments - DONE - Missing info from request 400 error DONE
                                                  Incorrect data type given 400 error DONE
 
@@ -46,3 +48,6 @@ GET /api/users/:username - DONE - User not found 404 error DONE
 /-----------------------
 
 GET /api                - DONE - Invalid path 404 error DONE
+
+
+

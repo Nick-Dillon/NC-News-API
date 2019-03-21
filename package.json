@@ -6,14 +6,15 @@
   "scripts": {
     "lint": "eslint ./ --fix",
     "pre-commit": "npm t",
-    "posttest": "npm run lint",
+    "posttest": "",
     "setup-dbs": "psql -f db/dbs-setup.sql",
     "migrate-make": "knex migrate:make",
     "migrate-latest": "knex migrate:latest",
     "migrate-rollback": "knex migrate:rollback",
     "seed": "knex seed:run",
     "seed-test": "npm run setup-dbs && NODE_ENV=test npm run seed",
-    "test": "mocha ./spec/*.spec.js"
+    "test": "mocha ./spec/*.spec.js",
+    "//": "'npm run lint' should be put back in 'posttest' when ready"
   },
   "repository": {
     "type": "git",

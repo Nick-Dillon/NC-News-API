@@ -11,12 +11,18 @@ const {
 app.use(bodyParser.json());
 app.use('/api', apiRouter);
 
-app.all('/*', (req, res, next) => next({ status: 404, message: 'Path not found!' }));
+app.all('/*', (req, res, next) => {
+  console.log('caught here');
+  next({ status: 405, message: 'Method not allowed!' });
+});
 
 app.use(handle400);
 app.use(handle404);
 app.use(handle405);
 app.use(handle422);
+app.use(handle500);
 
+// ### `/api/articles`
+//  - **status:405 invalid request method for end-point:** PUT, DELETE, PATCH methods all should respond with a 405. Can handle this with `articlesRouter.route('/').all(()=>{})`
 
 module.exports = app;

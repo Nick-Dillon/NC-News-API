@@ -21,10 +21,14 @@ const belongsToToArticleId = (articleRef, commentArr) => {
   return endResult;
 };
 
-const formatDate = arr => arr.map((obj) => {
-  obj.created_at = new Date(+obj.created_at);
-  return obj;
-});
+const formatDate = (arr) => {
+  const newArr = [];
+  arr.forEach((obj) => {
+    newArr.push({ ...obj, created_at: new Date(+obj.created_at) });
+    return obj;
+  });
+  return newArr;
+};
 
 const columnChecker = (str) => {
   if (str === 'author' || str === 'title' || str === 'article_id' || str === 'topic' || str === 'created_at' || str === 'votes' || str === 'comment_count') {

@@ -12,3 +12,7 @@ apiRouter.use('/comments', commentsRouter);
 apiRouter.get('/', displayApiRoutes);
 
 module.exports = apiRouter;
+
+
+// ### `/api/articles`
+//  - **status:405 invalid request method for end-point:** PUT, DELETE, PATCH methods all should respond with a 405. Can handle this with `articlesRouter.route('/').all(()=>{})`

@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 const {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate,
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker,
 } = require('../utils/refFunctions');
 
 describe('ref function tests', () => {
@@ -47,8 +47,21 @@ describe('ref function tests', () => {
     it('formats the epoch date value of an objects "created at" property from milliseconds to a readable date-format', () => {
       const example = [{ votes: 10, created_at: 1101386163389 }, { votes: 1, created_at: 1101386864723 }];
       const actual = formatDate(example);
-      const expected = [{ votes: 10, created_at: '2004-11-25T12:36:03.389Z' }, { votes: 1, created_at: '2004-11-25T12:47:44.723Z' }];
-      expect(actual).to.eql(expected);
+      expect(actual[0].created_at).to.be.an.instanceOf(Date);
+    });
+  });
+  describe('/additional controller functions', () => {
+    describe('/column checker', () => {
+      it('returns true if column inputted meets the requirements for an article', () => {
+        expect(columnChecker('author')).to.be.true;
+        expect(columnChecker('title')).to.be.true;
+        expect(columnChecker('article_id')).to.be.true;
+        expect(columnChecker('topic')).to.be.true;
+        expect(columnChecker('created_at')).to.be.true;
+        expect(columnChecker('votes')).to.be.true;
+        expect(columnChecker('comment_count')).to.be.true;
+        expect(columnChecker('fijfdoksfdgs')).to.be.false;
+      });
     });
   });
 });

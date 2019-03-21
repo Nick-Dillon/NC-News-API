@@ -3,17 +3,25 @@ const {
   fetchArticles, fetchArticleComments, postComment, postArticle, fetchSpecificArticle, voteOnArticle, deleteArticle,
 } = require('../controllers/articlesControllers');
 
-articlesRouter.get('/', fetchArticles);
-articlesRouter.get('/:article_id', fetchSpecificArticle);
 
-articlesRouter.get('/:article_id/comments', fetchArticleComments);
+articlesRouter.route('/')
+  .get(fetchArticles)
+  .post(postArticle)
+  .all((err, req, res, next) => { next(err); });
 
-articlesRouter.post('/', postArticle);
-articlesRouter.post('/:article_id/comments', postComment);
+articlesRouter.route('/:article_id')
+  .get(fetchSpecificArticle)
+  .patch(voteOnArticle)
+  .delete(deleteArticle)
+  .all((err, req, res, next) => { next(err); });
 
-articlesRouter.patch('/:article_id', voteOnArticle);
+articlesRouter.route('/:article_id/comments')
+  .get(fetchArticleComments)
+  .post(postComment)
+  .all((err, req, res, next) => { next(err); });
 
-articlesRouter.delete('/:article_id', deleteArticle);
 
+// ### `/api/articles`
+//  - **status:405 invalid request method for end-point:** PUT, DELETE, PATCH methods all should respond with a 405. Can handle this with `articlesRouter.route('/').all(()=>{})`
 
 module.exports = articlesRouter;

@@ -162,7 +162,7 @@ describe('CRUD tests', () => {
         }));
       it('DELETE status:204, deletes the article, and any associated comments, and returns status 204 only', () => request.delete('/api/articles/1').expect(204));
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('NOT FOUND status 404, returns an error message when cannot find specific article', () => request.get('/api/articles/20').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
@@ -171,7 +171,6 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));
-      // ///////////////////////
       it('BAD REQUEST status:400, returns error when trying to patch anything but the votes', () => request.patch('/api/articles/1').send({ inc_votes: 1, body: 'should fail' }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
@@ -180,7 +179,6 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
         }));
-      // /////////////
       it('NOT FOUND status 404, returns an error message when cannot find specific article to delete', () => request.delete('/api/articles/20').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot delete nonexistent article!');
@@ -207,6 +205,12 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));
+      it('METHOD NOT ALLOWED status:405, returns error message when trying to patch, put or delete all articles', () => {
+        request.patch('/api/articles').send({ body: 'hello' }).expect(405)
+          .then((res) => {
+            expect(res.body.message).to.equal('Method not allowed!');
+          });
+      });
     });
   });
   describe('/comments', () => {
@@ -289,6 +293,10 @@ describe('CRUD tests', () => {
       it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: 12345 }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
+        }));
+      it('BAD REQUEST status:400, returns error when trying to sort by nonexistent column', () => request.get('/api/articles/1/comments?sort_by=size').expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot sort comments by nonexistent column!');
         }));
     });
   });

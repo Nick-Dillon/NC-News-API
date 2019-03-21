@@ -38,16 +38,12 @@ const fetchArticles = (req, res, next) => {
 };
 
 const fetchArticleComments = (req, res, next) => {
+  const { sort_by = 'created_at', order = 'desc' } = req.query;
   const article_id = req.params.article_id;
-  let sortBy = 'created_at';
-  let orderBy = 'desc';
-  if (req.query.sort_by) {
-    sortBy = req.query.sort_by;
+  if (!columnChecker(sort_by)) {
+    res.status(400).send({ message: 'Cannot sort comments by nonexistent column!' });
   }
-  if (req.query.order === 'asc') {
-    orderBy = 'asc';
-  }
-  getArticleComments(article_id, sortBy, orderBy)
+  getArticleComments(article_id, sort_by, order)
     .then((comments) => {
       if (comments.length === 0) {
         return Promise.reject({ status: 404, message: 'Comments not found!' });
@@ -56,6 +52,26 @@ const fetchArticleComments = (req, res, next) => {
     })
     .catch(next);
 };
+
+// const fetchArticleComments = (req, res, next) => {
+//   const article_id = req.params.article_id;
+//   let sortBy = 'created_at';
+//   let orderBy = 'desc';
+//   if (req.query.sort_by) {
+//     sortBy = req.query.sort_by;
+//   }
+//   if (req.query.order === 'asc') {
+//     orderBy = 'asc';
+//   }
+//   getArticleComments(article_id, sortBy, orderBy)
+//     .then((comments) => {
+//       if (comments.length === 0) {
+//         return Promise.reject({ status: 404, message: 'Comments not found!' });
+//       }
+//       res.status(200).send({ comments });
+//     })
+//     .catch(next);
+// };
 
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
