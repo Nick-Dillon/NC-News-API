@@ -3,6 +3,7 @@ const { checkPatchAttempt } = require('../utils/refFunctions');
 
 const voteOnComment = (req, res, next) => {
   if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
+  if (!checkPatchAttempt(req.body)) next(err);
   else {
     const commentToUpdate = { id: req.params.comment_id, votes: req.body.inc_votes };
     return updateComment(commentToUpdate)
@@ -10,9 +11,12 @@ const voteOnComment = (req, res, next) => {
         if (updatedComment === undefined) {
           return Promise.reject({ status: 404, message: 'Cannot patch nonexistent comment!' });
         }
-        res.status(201).send({ updatedComment });
+        res.status(200).send({ updatedComment });
       })
-      .catch(next);
+      .catch(err => {
+        console.log(err)
+        next(err)
+      });
   }
 };
 

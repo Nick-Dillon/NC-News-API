@@ -25,5 +25,3 @@ exports.postUser = (req, res, next) => {
   createUser(req.body)
     .then(([createdUser]) => res.status(201).send({ createdUser })).catch(next);
 };
-
-exports.methodNotAllowed = (req, res, next) => res.status(405).send({ message: 'Method not allowed!' }).catch(next);

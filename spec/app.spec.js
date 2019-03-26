@@ -8,12 +8,12 @@ const request = supertest(app);
 const connection = require('../db/connection');
 
 
-describe('CRUD tests', () => {
+describe.only('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
   describe('/topics', () => {
-    describe('/requests', () => {
+    xdescribe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
           expect(res.body.topics).to.eql([
@@ -151,12 +151,12 @@ describe('CRUD tests', () => {
           expect(res.body.article.title).to.equal('Eight pug gifs that remind me of mitch');
           expect(res.body.article.comment_count).to.equal('0');
         }));
-      it('PATCH status:201, returns a specific artile with a changed vote', () => request.patch('/api/articles/5').send({ inc_votes: 1 }).expect(201)
+      it('PATCH status:200, returns a specific artile with a changed vote', () => request.patch('/api/articles/5').send({ inc_votes: 1 }).expect(200)
         .then((res) => {
           expect(res.body.updatedArticle.votes).to.equal(1);
           expect(res.body.updatedArticle.title).to.equal('UNCOVERED: catspiracy to bring down democracy');
         }));
-      it('PATCH status:201, returns a specific artile with a lower vote', () => request.patch('/api/articles/5').send({ inc_votes: -1 }).expect(201)
+      it('PATCH status:200, returns a specific artile with a lower vote', () => request.patch('/api/articles/5').send({ inc_votes: -1 }).expect(200)
         .then((res) => {
           expect(res.body.updatedArticle.votes).to.equal(-1);
         }));
@@ -199,7 +199,7 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
         }));
-      it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/articles').send({
+      it('BAD REQUEST status:400, returns error message when post request does not contain correct types of data', () => request.post('/api/articles').send({
         title: true, topic: 'cats', body: 123, username: 'rogersop',
       }).expect(400)
         .then(({ body }) => {
@@ -210,11 +210,19 @@ describe('CRUD tests', () => {
           .then((res) => {
             expect(res.body.message).to.equal('Method not allowed!');
           });
-      });
+        });
+      it('BAD REQUEST status 400, returns an error message when article id is not correct format', () => request.get('/api/articles/twenty').expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Article ID must be a number!');
+      }));
+      it('BAD REQUEST status 400, returns an error message when trying to delete article but article id is not correct format', () => request.delete('/api/articles/twenty').expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Article ID must be a number!');
+      }));
     });
   });
   describe('/comments', () => {
-    describe('/requests', () => {
+    xdescribe('/requests', () => {
       it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
         .then((res) => {
           expect(res.body.comments.length).to.equal(13);
@@ -256,9 +264,9 @@ describe('CRUD tests', () => {
             expect(res.body.createdComment.article_id).to.equal(2);
           });
       });
-      it('PATCH status:201, increases the vote by 1', () => {
+      it('PATCH status:200, increases the vote by 1', () => {
         const upvote = { inc_votes: 1 };
-        return request.patch('/api/comments/1').send(upvote).expect(201)
+        return request.patch('/api/comments/1').send(upvote).expect(200)
           .then((res) => {
             expect(res.body.updatedComment.votes).to.equal(17);
           });
@@ -296,7 +304,7 @@ describe('CRUD tests', () => {
         }));
       it('BAD REQUEST status:400, returns error when trying to sort by nonexistent column', () => request.get('/api/articles/1/comments?sort_by=size').expect(400)
         .then(({ body }) => {
-          expect(body.message).to.equal('Cannot sort comments by nonexistent column!');
+          expect(body.message).to.equal('Cannot sort by nonexistent column!');
         }));
     });
   });

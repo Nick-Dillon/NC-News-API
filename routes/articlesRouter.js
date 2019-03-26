@@ -7,21 +7,20 @@ const {
 articlesRouter.route('/')
   .get(fetchArticles)
   .post(postArticle)
-  .all((err, req, res, next) => { next(err); });
+  .all((req, res, next) => {
+    res.status(405).send({ message: 'Method not allowed!' })
+    })
 
 articlesRouter.route('/:article_id')
   .get(fetchSpecificArticle)
   .patch(voteOnArticle)
   .delete(deleteArticle)
-  .all((err, req, res, next) => { next(err); });
+  .all((err, req, res, next) => { next(err) });
 
 articlesRouter.route('/:article_id/comments')
   .get(fetchArticleComments)
   .post(postComment)
-  .all((err, req, res, next) => { next(err); });
+  .all((err, req, res, next) => { next(err) });
 
-
-// ### `/api/articles`
-//  - **status:405 invalid request method for end-point:** PUT, DELETE, PATCH methods all should respond with a 405. Can handle this with `articlesRouter.route('/').all(()=>{})`
 
 module.exports = articlesRouter;

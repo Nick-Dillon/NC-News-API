@@ -16,7 +16,7 @@ const createComment = comment => connection('comments').insert(comment).returnin
 
 const createArticle = article => connection('articles').insert(article).returning('*');
 
-const getSpecificArticle = id => connection.select('articles.author', 'articles.title', 'articles.article_id', 'topic', 'articles.created_at', 'articles.votes')
+const getSpecificArticle = id => connection.select('articles.author', 'articles.title', 'articles.article_id', 'topic', 'articles.created_at', 'articles.votes', 'articles.body')
   .from('articles')
   .where('articles.article_id', id)
   .leftJoin('comments', 'articles.article_id', 'comments.article_id')

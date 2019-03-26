@@ -40,9 +40,9 @@ const fetchArticles = (req, res, next) => {
 const fetchArticleComments = (req, res, next) => {
   const { sort_by = 'created_at', order = 'desc' } = req.query;
   const article_id = req.params.article_id;
-  if (!columnChecker(sort_by)) {
-    res.status(400).send({ message: 'Cannot sort comments by nonexistent column!' });
-  }
+  // if (!columnChecker(sort_by)) {
+  //   res.status(400).send({ message: 'Cannot sort comments by nonexistent column!' });
+  // }
   getArticleComments(article_id, sort_by, order)
     .then((comments) => {
       if (comments.length === 0) {
@@ -50,28 +50,10 @@ const fetchArticleComments = (req, res, next) => {
       }
       res.status(200).send({ comments });
     })
-    .catch(next);
+    .catch(err => {
+      next(err)
+    });
 };
-
-// const fetchArticleComments = (req, res, next) => {
-//   const article_id = req.params.article_id;
-//   let sortBy = 'created_at';
-//   let orderBy = 'desc';
-//   if (req.query.sort_by) {
-//     sortBy = req.query.sort_by;
-//   }
-//   if (req.query.order === 'asc') {
-//     orderBy = 'asc';
-//   }
-//   getArticleComments(article_id, sortBy, orderBy)
-//     .then((comments) => {
-//       if (comments.length === 0) {
-//         return Promise.reject({ status: 404, message: 'Comments not found!' });
-//       }
-//       res.status(200).send({ comments });
-//     })
-//     .catch(next);
-// };
 
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
@@ -121,7 +103,7 @@ const voteOnArticle = (req, res, next) => {
         if (updatedArticle === undefined) {
           return Promise.reject({ status: 404, message: 'Article not found!' });
         }
-        res.status(201).send({ updatedArticle });
+        res.status(200).send({ updatedArticle });
       })
       .catch(next);
   }
