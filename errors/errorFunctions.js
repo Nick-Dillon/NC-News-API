@@ -30,6 +30,7 @@ const handle405 = (err, req, res, next) => {
 
 const handle422 = (err, req, res, next) => {
   const codes = {
+    23503: 'Cannot post from a nonexistent user!',
     23505: 'Sorry, that already exists!',
   };
   if (codes[err.code]) res.status(422).send({ message: codes[err.code] });

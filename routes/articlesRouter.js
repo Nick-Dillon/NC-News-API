@@ -15,7 +15,9 @@ articlesRouter.route('/:article_id')
   .get(fetchSpecificArticle)
   .patch(voteOnArticle)
   .delete(deleteArticle)
-  .all((err, req, res, next) => { next(err) });
+  .all((req, res, next) => {
+    res.status(405).send({ message: 'Method not allowed!' })
+    });
 
 articlesRouter.route('/:article_id/comments')
   .get(fetchArticleComments)

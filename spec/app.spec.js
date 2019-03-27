@@ -227,6 +227,12 @@ describe.only('CRUD tests', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
       }));
+      it('METHOD NOT ALLOWED status:405, returns error message when trying to post a specific article with an ID', () => {
+        request.post('/api/articles/1').send({ body: 'hello' }).expect(405)
+          .then((res) => {
+            expect(res.body.message).to.equal('Method not allowed!');
+          });
+        });
     });
   });
   describe('/comments', () => {
@@ -279,13 +285,12 @@ describe.only('CRUD tests', () => {
             expect(res.body.updatedComment.votes).to.equal(17);
           });
       });
-      it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
+      it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204)
+      );
+      it('GET status:204, returns 204 when there were no comments to retrieve', () => request.get('/api/articles/2/comments').expect(204)
+      );
     });
-    describe.only('/error handling', () => {
-      it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
-        .then(({ body }) => {
-          expect(body.message).to.equal('Comments not found!');
-        }));
+    describe('/error handling', () => {
       it('NOT FOUND status:404, returns error when specific comment cannot be found to be deleted', () => request.delete('/api/comments/200').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot delete nonexistent comment!');
@@ -306,14 +311,35 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
         }));
-      it('BAD REQUEST status:400, returns error when wrong data-types are given for post request', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: 12345 }).expect(400)
-        .then(({ body }) => {
-          expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
-        }));
       it('BAD REQUEST status:400, returns error when trying to sort by nonexistent column', () => request.get('/api/articles/1/comments?sort_by=size').expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot sort by nonexistent column!');
         }));
+      it('NOT FOUND status:404, returns error when trying to get comments by non-existent article ID', () => request.get('/api/articles/200/comments').expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Article not found!');
+        }));
+      it('BAD REQUEST status:400, returns error when trying to get comments with invalid article ID', () => request.get('/api/articles/twenty/comments').expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Article ID must be a number!');
+        }));
+      it('BAD REQUEST status:400, returns error when trying to post comments with a body that has wrong properties', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', commentBody: 'commentBody should be body' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Missing information from the post request!');
+        }));
+      it('BAD REQUEST status:422, returns error when trying to post comments with a body that has nonexistent username', () => request.post('/api/articles/1/comments').send({ username: 'Nick-Dillon', body: 'no such user...' }).expect(422)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Cannot post from a nonexistent user!');
+        }));
+      it('BAD REQUEST status 400, returns an error message when trying to vote for a comment but inc_votes is given wrong data-type', () => request.patch('/api/comments/1').send({inc_votes: 'bananana'}).expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
+      }));
+      it.only('BAD REQUEST status 400, returns an error message when comment id is not correct format', () => request.get('/api/comments/one').expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Comment ID must be a number!');
+      }));
+
     });
   });
   describe('/api', () => {

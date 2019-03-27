@@ -40,15 +40,13 @@ const fetchArticles = (req, res, next) => {
 const fetchArticleComments = (req, res, next) => {
   const { sort_by = 'created_at', order = 'desc' } = req.query;
   const article_id = req.params.article_id;
-  // if (!columnChecker(sort_by)) {
-  //   res.status(400).send({ message: 'Cannot sort comments by nonexistent column!' });
-  // }
   getArticleComments(article_id, sort_by, order)
     .then((comments) => {
       if (comments.length === 0) {
-        return Promise.reject({ status: 404, message: 'Comments not found!' });
+        res.sendStatus(204)
+        // return Promise.reject({ status: 404, message: 'Comments not found!' });
       }
-      res.status(200).send({ comments });
+      else res.status(200).send({ comments });
     })
     .catch(err => {
       next(err)
@@ -65,7 +63,6 @@ const postComment = (req, res, next) => {
       res.status(201).send({ createdComment });
     })
     .catch(err => {
-      console.log(err);
       next(err);
     })
 };
@@ -110,7 +107,6 @@ const voteOnArticle = (req, res, next) => {
         res.status(200).send({ updatedArticle });
       })
       .catch(err => {
-        console.log(err)
         next(err);
       });
   }
