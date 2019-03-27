@@ -57,13 +57,17 @@ const fetchArticleComments = (req, res, next) => {
 
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
-  if (!checkCommentKeys(req.body)) return Promise.reject({ status: 400, message: 'Missing information from the post request!' }).catch(next);
-  if (!checkCommentKeysDataTypes(req.body)) return Promise.reject({ status: 400, message: 'Invalid type of data given for post request - make sure to use the correct data-types!' }).catch(next);
+  // if (!checkCommentKeys(req.body)) return Promise.reject({ status: 400, message: 'Missing information from the post request!' }).catch(next);
+  // if (!checkCommentKeysDataTypes(req.body)) return Promise.reject({ status: 400, message: 'Invalid type of data given for post request - make sure to use the correct data-types!' }).catch(next);
   const comment = { body: req.body.body, author: req.body.username, article_id };
   createComment(comment)
     .then(([createdComment]) => {
       res.status(201).send({ createdComment });
-    });
+    })
+    .catch(err => {
+      console.log(err);
+      next(err);
+    })
 };
 
 const postArticle = (req, res, next) => {
@@ -94,7 +98,7 @@ const fetchSpecificArticle = (req, res, next) => {
 };
 
 const voteOnArticle = (req, res, next) => {
-  if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
+  if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' }); // done like this becuase I can't get an error passed down otherwise - problem with migration table set-up?
   else {
     const id = req.params.article_id;
     const vote = req.body.inc_votes;
@@ -105,7 +109,10 @@ const voteOnArticle = (req, res, next) => {
         }
         res.status(200).send({ updatedArticle });
       })
-      .catch(next);
+      .catch(err => {
+        console.log(err)
+        next(err);
+      });
   }
 };
 

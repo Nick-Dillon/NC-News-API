@@ -13,7 +13,7 @@ describe.only('CRUD tests', () => {
   after(() => connection.destroy());
 
   describe('/topics', () => {
-    xdescribe('/requests', () => {
+    describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
           expect(res.body.topics).to.eql([
@@ -162,7 +162,7 @@ describe.only('CRUD tests', () => {
         }));
       it('DELETE status:204, deletes the article, and any associated comments, and returns status 204 only', () => request.delete('/api/articles/1').expect(204));
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('NOT FOUND status 404, returns an error message when cannot find specific article', () => request.get('/api/articles/20').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
@@ -219,10 +219,18 @@ describe.only('CRUD tests', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('Article ID must be a number!');
       }));
+      it('BAD REQUEST status 400, returns an error message when trying to get comments but article id is not correct format', () => request.get('/api/articles/twenty/comments').expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Article ID must be a number!');
+      }));
+      it('BAD REQUEST status 400, returns an error message when trying to vote for an article but inc_votes is given wrong data-type', () => request.patch('/api/articles/1').send({inc_votes: 'bananana'}).expect(400)
+      .then(({ body }) => {
+        expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
+      }));
     });
   });
   describe('/comments', () => {
-    xdescribe('/requests', () => {
+    describe('/requests', () => {
       it('GET Status:200, responds with all comments for a specific article', () => request.get('/api/articles/1/comments').expect(200)
         .then((res) => {
           expect(res.body.comments.length).to.equal(13);
@@ -273,7 +281,7 @@ describe.only('CRUD tests', () => {
       });
       it('DELETE status:204, deletes the comment and returns status only', () => request.delete('/api/comments/2').expect(204));
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('NOT FOUND status:404, returns error when comments are not found', () => request.get('/api/articles/2/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Comments not found!');
@@ -298,7 +306,7 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
         }));
-      it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: 12345 }).expect(400)
+      it('BAD REQUEST status:400, returns error when wrong data-types are given for post request', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: 12345 }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));

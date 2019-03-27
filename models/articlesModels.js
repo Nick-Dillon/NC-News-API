@@ -8,7 +8,7 @@ const getArticles = (reqQuery, sortBy, order) => connection.select('articles.aut
   .groupBy('articles.article_id', 'comments.article_id')
   .orderBy(sortBy, order);
 
-const getArticleComments = (articleId, sortBy, order) => connection.select('*').from('comments')
+const getArticleComments = (articleId, sortBy, order) => connection.select('comment_id', 'author', 'votes', 'created_at', 'body').from('comments')
   .where('comments.article_id', articleId)
   .orderBy(sortBy, order);
 

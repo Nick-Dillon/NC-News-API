@@ -11,9 +11,9 @@ NIck Dillon
  - **status:405 invalid request method for end-point:** PUT, DELETE, PATCH methods all should respond with a 405.
 
  ### `/api/articles/:article_id/comments`
-- **GET responds with an array of comment objects:** Your comment object response includes the `article_id` key which needs to be removed 
-- **GET responds with 400 for an invalid article_id:** Like in you specific article test if you enter an invalid kind of article_id it needs to respond with a 400 rather than a 500.
-- **PATCH status:400 if given an invalid inc_votes:** if you patch with a bad inc_votes value (e.g. `{inc_votes: 'bananana'}`) it should respond with status 400
+<!-- - **GET responds with an array of comment objects:** Your comment object response includes the `article_id` key which needs to be removed  -->
+<!-- - **GET responds with 400 for an invalid article_id:** Like in you specific article test if you enter an invalid kind of article_id it needs to respond with a 400 rather than a 500. -->
+<!-- - **PATCH status:400 if given an invalid inc_votes:** if you patch with a bad inc_votes value (e.g. `{inc_votes: 'bananana'}`) it should respond with status 400 -->
 -  Your post comment controller has no catch block and therefore no way to handle errors thrown by psql. Errors such as:
     1. **responds with a 404 when given a non-existent article id**
     2. **responds with a 400 when given an invalid article id**

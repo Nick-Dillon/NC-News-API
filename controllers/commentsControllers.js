@@ -2,9 +2,9 @@ const { updateComment, removeComment } = require('../models/commentsModels');
 const { checkPatchAttempt } = require('../utils/refFunctions');
 
 const voteOnComment = (req, res, next) => {
-  if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
-  if (!checkPatchAttempt(req.body)) next(err);
-  else {
+  // if (!checkPatchAttempt(req.body)) next({ status: 400, message: 'Invalid change - you can only change the vote, and the input must be a number!' });
+  // if (!checkPatchAttempt(req.body)) next(err);
+  // else {
     const commentToUpdate = { id: req.params.comment_id, votes: req.body.inc_votes };
     return updateComment(commentToUpdate)
       .then(([updatedComment]) => {
@@ -17,7 +17,7 @@ const voteOnComment = (req, res, next) => {
         console.log(err)
         next(err)
       });
-  }
+  // }
 };
 
 const deleteComment = (req, res, next) => {
