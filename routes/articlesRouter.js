@@ -22,7 +22,9 @@ articlesRouter.route('/:article_id')
 articlesRouter.route('/:article_id/comments')
   .get(fetchArticleComments)
   .post(postComment)
-  .all((err, req, res, next) => { next(err) });
+  .all((req, res, next) => { 
+    res.status(405).send({ message: 'Method not allowed!' })
+   });
 
 
 module.exports = articlesRouter;

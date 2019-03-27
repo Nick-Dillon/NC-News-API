@@ -5,7 +5,7 @@ const handle400 = (err, req, res, next) => {
   const codes = {
     42703: 'Cannot sort by nonexistent column!',
     23502: 'Missing information from the post request!',
-    "22P02": 'Article ID must be a number!'
+    "22P02": 'ID must be a number!'
   };
   if (codes[err.code] || err.status === 400) {
     res.status(400).send({ message: codes[err.code] || err.message })

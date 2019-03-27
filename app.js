@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use('/api', apiRouter);
 
 app.all('/*', (req, res, next) => {
-  next({ status: 404 });
+  next({ status: 404, message: 'Path not found!' });
 });
 
 app.use(handle400);

@@ -213,15 +213,15 @@ describe.only('CRUD tests', () => {
         });
       it('BAD REQUEST status 400, returns an error message when article id is not correct format', () => request.get('/api/articles/twenty').expect(400)
       .then(({ body }) => {
-        expect(body.message).to.equal('Article ID must be a number!');
+        expect(body.message).to.equal('ID must be a number!');
       }));
       it('BAD REQUEST status 400, returns an error message when trying to delete article but article id is not correct format', () => request.delete('/api/articles/twenty').expect(400)
       .then(({ body }) => {
-        expect(body.message).to.equal('Article ID must be a number!');
+        expect(body.message).to.equal('ID must be a number!');
       }));
       it('BAD REQUEST status 400, returns an error message when trying to get comments but article id is not correct format', () => request.get('/api/articles/twenty/comments').expect(400)
       .then(({ body }) => {
-        expect(body.message).to.equal('Article ID must be a number!');
+        expect(body.message).to.equal('ID must be a number!');
       }));
       it('BAD REQUEST status 400, returns an error message when trying to vote for an article but inc_votes is given wrong data-type', () => request.patch('/api/articles/1').send({inc_votes: 'bananana'}).expect(400)
       .then(({ body }) => {
@@ -229,6 +229,12 @@ describe.only('CRUD tests', () => {
       }));
       it('METHOD NOT ALLOWED status:405, returns error message when trying to post a specific article with an ID', () => {
         request.post('/api/articles/1').send({ body: 'hello' }).expect(405)
+          .then((res) => {
+            expect(res.body.message).to.equal('Method not allowed!');
+          });
+        });
+      it('METHOD NOT ALLOWED status:405, returns error message when trying to post a specific article with an ID', () => {
+        request.delete('/api/articles/1/comments').expect(405)
           .then((res) => {
             expect(res.body.message).to.equal('Method not allowed!');
           });
@@ -321,7 +327,7 @@ describe.only('CRUD tests', () => {
         }));
       it('BAD REQUEST status:400, returns error when trying to get comments with invalid article ID', () => request.get('/api/articles/twenty/comments').expect(400)
         .then(({ body }) => {
-          expect(body.message).to.equal('Article ID must be a number!');
+          expect(body.message).to.equal('ID must be a number!');
         }));
       it('BAD REQUEST status:400, returns error when trying to post comments with a body that has wrong properties', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', commentBody: 'commentBody should be body' }).expect(400)
         .then(({ body }) => {
@@ -335,9 +341,13 @@ describe.only('CRUD tests', () => {
       .then(({ body }) => {
         expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
       }));
-      it.only('BAD REQUEST status 400, returns an error message when comment id is not correct format', () => request.get('/api/comments/one').expect(400)
+      it('BAD REQUEST status 400, returns an error message when comment id is not correct format', () => request.patch('/api/comments/one').send({ inc_votes: 1 }).expect(400)
       .then(({ body }) => {
-        expect(body.message).to.equal('Comment ID must be a number!');
+        expect(body.message).to.equal('ID must be a number!');
+      }));
+      it('METHOD NOT ALLOWED status:405, returns error message when trying to use a not allowed method', () => request.get('/api/comments/1').expect(405)
+      .then((res) => {
+        expect(res.body.message).to.equal('Method not allowed!');
       }));
 
     });
@@ -358,9 +368,10 @@ describe.only('CRUD tests', () => {
         }));
     });
     describe('/error handling', () => {
-      it('', () => {
-
-      });
+      it('METHOD NOT ALLOWED status:405, returns error message when trying to use a not allowed method', () => request.delete('/api').expect(405)
+        .then((res) => {
+          expect(res.body.message).to.equal('Method not allowed!');
+        }));
     });
   });
   describe('/universal error handling', () => {

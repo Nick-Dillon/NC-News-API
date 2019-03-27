@@ -19,14 +19,14 @@ NIck Dillon
     <!-- 2. **responds with a 400 when given an invalid article id** -->
     <!-- 3. **responds with a 400 when given an invalid body referencing a non-existent column** -->
     <!-- 4. **responds with a 422 when given a non-existent username** -->
-- **invalid methods respond with 405:** PUT PATCH DELETE -> 405
+<!-- - **invalid methods respond with 405:** PUT PATCH DELETE -> 405 -->
 
  ### `/api/articles/:article_id/comments/:comment_id`
  <!-- - **PATCH status:200 and an updated comment when given a body including a valid "inc_votes":** 200, not 201 -->
  <!-- - **PATCH status:400 if given an invalid inc_votes:** if you patch with a bad inc_votes value (e.g. `{inc_votes: 'bananana'}`) it should respond with status 400 -->
- - **PATCH status:400 if invalid comment_id is used:** Gotta catch those invalid ids (e.g. /api/comments/bananana)
+ <!-- - **PATCH status:400 if invalid comment_id is used:** Gotta catch those invalid ids (e.g. /api/comments/bananana) -->
  - **PATCH status:404 non-existent comment_id is used:** You respond with a 400 rather than 404. This is because you check for the body first before looking for the comment. A neater way of doing this would be to do it at the same time using a Promise.all(). Find the comment in the DB at the same time as trying to patch it. If it doesn't exist, throw a 404. If it does, check for 400s/200s.
-- **invalid methods respond with 405:** PUT PATCH DELETE -> 405
+<!-- - **invalid methods respond with 405:** PUT PATCH DELETE -> 405 -->
 
 <!-- ### `/api/users`
 - **invalid methods respond with 405:** PUT PATCH DELETE -> 405 -->

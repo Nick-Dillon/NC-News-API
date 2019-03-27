@@ -9,7 +9,12 @@ apiRouter.use('/topics', topicsRouter);
 apiRouter.use('/users', usersRouter);
 apiRouter.use('/articles', articlesRouter);
 apiRouter.use('/comments', commentsRouter);
-apiRouter.get('/', displayApiRoutes);
+
+apiRouter.route('/')
+    .get(displayApiRoutes)
+    .all((req, res, next) => {
+        res.status(405).send({ message: 'Method not allowed!' })
+    })
 
 module.exports = apiRouter;
 
