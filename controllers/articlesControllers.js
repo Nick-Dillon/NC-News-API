@@ -40,11 +40,17 @@ const fetchArticles = (req, res, next) => {
 const fetchArticleComments = (req, res, next) => {
   const { sort_by = 'created_at', order = 'desc' } = req.query;
   const article_id = req.params.article_id;
+  getSpecificArticle(article_id)
+  .then((result) => {
+    if (result.length === 0) {
+      next()
+      res.status(404).send({ message: "Article not found!" })
+    }
+  })
   getArticleComments(article_id, sort_by, order)
     .then((comments) => {
       if (comments.length === 0) {
         res.sendStatus(204)
-        // return Promise.reject({ status: 404, message: 'Comments not found!' });
       }
       else res.status(200).send({ comments });
     })
