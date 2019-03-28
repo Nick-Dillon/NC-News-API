@@ -321,7 +321,7 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Cannot sort by nonexistent column!');
         }));
-      it.only('NOT FOUND status:404, returns error when trying to get comments by non-existent article ID', () => request.get('/api/articles/200/comments').expect(404)
+      it('NOT FOUND status:404, returns error when trying to get comments by non-existent article ID', () => request.get('/api/articles/200/comments').expect(404)
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));
