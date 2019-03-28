@@ -325,6 +325,10 @@ describe.only('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Article not found!');
         }));
+      it('NOT FOUND status:404, returns error when trying to post a comment by non-existent article ID', () => request.post('/api/articles/200/comments').send({username: 'rogersop', body: 'there is no article 200!'}).expect(404)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Article not found!');
+        }));
       it('BAD REQUEST status:400, returns error when trying to get comments with invalid article ID', () => request.get('/api/articles/twenty/comments').expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('ID must be a number!');

@@ -5,7 +5,6 @@ commentsRouter.route('/:comment_id')
     .patch(voteOnComment)
     .delete(deleteComment)
     .all((req, res, next) => {
-        // next()
         res.status(405).send({ message: 'Method not allowed!' })
     })
 

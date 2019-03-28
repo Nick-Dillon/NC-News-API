@@ -14,14 +14,14 @@ NIck Dillon
 <!-- - **GET responds with an array of comment objects:** Your comment object response includes the `article_id` key which needs to be removed  -->
 <!-- - **GET responds with 400 for an invalid article_id:** Like in you specific article test if you enter an invalid kind of article_id it needs to respond with a 400 rather than a 500. -->
 <!-- - **PATCH status:400 if given an invalid inc_votes:** if you patch with a bad inc_votes value (e.g. `{inc_votes: 'bananana'}`) it should respond with status 400 -->
--  Your post comment controller has no catch block and therefore no way to handle errors thrown by psql. Errors such as:
+<!-- -  Your post comment controller has no catch block and therefore no way to handle errors thrown by psql. Errors such as:
     1. **responds with a 404 when given a non-existent article id** - how do I differentiate between 204 and 404?
-    <!-- 2. **responds with a 400 when given an invalid article id** -->
-    <!-- 3. **responds with a 400 when given an invalid body referencing a non-existent column** -->
-    <!-- 4. **responds with a 422 when given a non-existent username** -->
-<!-- - **invalid methods respond with 405:** PUT PATCH DELETE -> 405 -->
+    2. **responds with a 400 when given an invalid article id**
+    3. **responds with a 400 when given an invalid body referencing a non-existent column**
+    4. **responds with a 422 when given a non-existent username**
+- **invalid methods respond with 405:** PUT PATCH DELETE -> 405
 
- ### `/api/articles/:article_id/comments/:comment_id`
+ ### `/api/articles/:article_id/comments/:comment_id` -->
  <!-- - **PATCH status:200 and an updated comment when given a body including a valid "inc_votes":** 200, not 201 -->
  <!-- - **PATCH status:400 if given an invalid inc_votes:** if you patch with a bad inc_votes value (e.g. `{inc_votes: 'bananana'}`) it should respond with status 400 -->
  <!-- - **PATCH status:400 if invalid comment_id is used:** Gotta catch those invalid ids (e.g. /api/comments/bananana) -->

@@ -43,10 +43,9 @@ const fetchArticleComments = (req, res, next) => {
   getSpecificArticle(article_id)
   .then((result) => {
     if (result.length === 0) {
-      next()
       res.status(404).send({ message: "Article not found!" })
     }
-  })
+  }).catch(next);
   getArticleComments(article_id, sort_by, order)
     .then((comments) => {
       if (comments.length === 0) {
@@ -61,9 +60,13 @@ const fetchArticleComments = (req, res, next) => {
 
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
-  // if (!checkCommentKeys(req.body)) return Promise.reject({ status: 400, message: 'Missing information from the post request!' }).catch(next);
-  // if (!checkCommentKeysDataTypes(req.body)) return Promise.reject({ status: 400, message: 'Invalid type of data given for post request - make sure to use the correct data-types!' }).catch(next);
   const comment = { body: req.body.body, author: req.body.username, article_id };
+  getSpecificArticle(article_id)
+  .then((result) => {
+    if (result.length === 0) {
+      res.status(404).send({ message: "Article not found!" })
+    }
+  })
   createComment(comment)
     .then(([createdComment]) => {
       res.status(201).send({ createdComment });
