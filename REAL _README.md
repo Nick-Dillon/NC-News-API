@@ -13,7 +13,7 @@ To download this to a local machine, enter the following into your terminal, the
 git clone https://github.com/Nick-Dillon/BE2-NC-Knews.git
 ```
 
-### Prerequisites
+## Prerequisites
 
 To use this API, you will need to install the following dependencies:
 ```
@@ -26,7 +26,7 @@ To use this API, you will need to install the following dependencies:
 NOTE - These are the versions that the API has been built upon. If you are using more recent versions of any of these, make sure to test the functionality of the API before deployment.
 
 
-### Installing and Setup
+## Installing and Setup
 
 The following scripts have been created in the package.json file:
 
@@ -42,7 +42,7 @@ To set up the development environment, run the following scripts in your termina
 * **npm run setup-dbs** - This creates the databases for our information to be stored. If any previous versions exist, it will delete them first then recreate them.
 * **npm run seed** - This will run the seed file, populating the databases with the data in the 'db' folder
 
-### Creating Tables/Schemas with Migrate Scripts
+## Creating Tables/Schemas with Migrate Scripts
 
 The other scripts are used for the creation and use of migration files. If you wish to set up new tables/schema in your database, this is what they are for.
 
