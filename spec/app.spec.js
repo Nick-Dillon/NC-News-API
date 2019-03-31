@@ -8,7 +8,7 @@ const request = supertest(app);
 const connection = require('../db/connection');
 
 
-describe.only('CRUD tests', () => {
+describe('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
