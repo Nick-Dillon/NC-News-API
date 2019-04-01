@@ -29,14 +29,7 @@ const dbConfig = {
   },
   production: {
     // ssl: true,
-    client: 'pg',
     connection: `${DB_URL}?ssl=true`,
-    migrations: {
-      directory: './seed/migrations/',
-    },
-    seeds: {
-      directory: './seed',
-    },
   },
 };
 
