@@ -11,6 +11,7 @@ exports.seed = (knex, Promise) => knex.migrate
   .then(() => knex('topics').insert(topicData).returning('*'))
   .then(() => knex('users').insert(userData).returning('*'))
   .then(() => {
+    console.log('done some seeding')
     const newArticleData = formatDate(articleData);
     return knex('articles').insert(newArticleData).returning('*');
   })

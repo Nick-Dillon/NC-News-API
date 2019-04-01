@@ -27,7 +27,7 @@ const dbConfig = {
     },
   },
   production: {
-    ssl: true,
+    // ssl: true,
     client: 'pg',
     connection: `${DB_URL}?ssl=true`,
     migrations: {
@@ -39,4 +39,5 @@ const dbConfig = {
   },
 };
 
+console.log(DB_URL)
 module.exports = { ...baseConfig, ...dbConfig[ENV] };
