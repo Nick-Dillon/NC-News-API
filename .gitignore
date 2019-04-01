@@ -1,5 +1,6 @@
 node_modules
 config
 README.md
+knexfile.js
 readme-todo.md
 to-fix_list_from_tomNC.md
