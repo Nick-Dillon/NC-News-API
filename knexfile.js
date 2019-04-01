@@ -25,12 +25,9 @@ const dbConfig = {
       password: 'rated',
     },
   production: {
-    connection: {
-      database: 'nc_news',
-      username: 'nicholas',
-      password: 'rated'
+    ssl: true,
+    connection: process.env.DATABASE_URL
     }
-  }
   },
 };
 
