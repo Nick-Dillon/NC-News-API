@@ -1,5 +1,5 @@
 const { DB_URL } = process.env;
-console.log(DB_URL)
+console.log(DB_URL, '<<<< line 2 in knexfile')
 const ENV = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
@@ -33,5 +33,5 @@ const dbConfig = {
   },
 };
 
-console.log(DB_URL)
+console.log(DB_URL, 'line 36 in knexfile')
 module.exports = { ...baseConfig, ...dbConfig[ENV] };
