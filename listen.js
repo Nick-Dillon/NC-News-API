@@ -1,4 +1,8 @@
 const express = require('express');
 const app = require("./app");
 
-app.listen(process.env.NODE_ENV || 9090)
+const port = process.env.PORT || 9090;
+
+app.listen(port)
+
+module.exports = app;
