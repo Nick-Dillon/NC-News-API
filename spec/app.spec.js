@@ -41,6 +41,10 @@ describe('CRUD tests', () => {
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
         }));
+      it('BAD REQUEST status:400, returns error message when post request has right data types but lengths are 0', () => request.post('/api/topics').send({ slug: "", description: 'no slug!' }).expect(400)
+      .then((res) => {
+        expect(res.body.message).to.equal('Missing information from the post request!');
+      }));
       it('BAD METHOD status:405, returns error message when using a method not allowed', () => request.delete('/api/topics/cats').expect(405)
         .then((res) => {
           expect(res.body.message).to.equal('Method not allowed!');
@@ -87,6 +91,10 @@ describe('CRUD tests', () => {
           expect(res.body.message).to.equal('Missing information from the post request!');
         }));
       it('BAD REQUEST status:400, returns message stating wrong data types entered for posting user', () => request.post('/api/users').send({ username: 'Nick-Dillon', avatar_url: 'www.nope.com', name: 123 }).expect(400)
+        .then((res) => {
+          expect(res.body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
+        }));
+      it('BAD REQUEST status:400, returns message when correct data types used but lengths are 0', () => request.post('/api/users').send({ username: 'Nick-Dillon', avatar_url: 'www.nope.com', name: '' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));
@@ -205,6 +213,12 @@ describe('CRUD tests', () => {
         .then(({ body }) => {
           expect(body.message).to.equal('Invalid type of data given for post request - make sure to use the correct data-types!');
         }));
+      it('BAD REQUEST status:400, returns error message when post request has right data types but lengths are 0', () => request.post('/api/topics').send({
+        title: '', topic: 'cats', body: 'hello', username: '',
+      }).expect(400)
+      .then((res) => {
+        expect(res.body.message).to.equal('Missing information from the post request!');
+      }));
       it('METHOD NOT ALLOWED status:405, returns error message when trying to patch, put or delete all articles', () => {
         request.patch('/api/articles').send({ body: 'hello' }).expect(405)
           .then((res) => {
@@ -314,6 +328,10 @@ describe('CRUD tests', () => {
           expect(body.message).to.equal('Invalid change - you can only change the vote, and the input must be a number!');
         }));
       it('BAD REQUEST status:400, returns error when post request does not have enough data', () => request.post('/api/articles/1/comments').send({ username: 'rogersop' }).expect(400)
+        .then(({ body }) => {
+          expect(body.message).to.equal('Missing information from the post request!');
+        }));
+      it('BAD REQUEST status:400, returns error when post request has right data but lengths of 0', () => request.post('/api/articles/1/comments').send({ username: 'rogersop', body: '' }).expect(400)
         .then(({ body }) => {
           expect(body.message).to.equal('Missing information from the post request!');
         }));

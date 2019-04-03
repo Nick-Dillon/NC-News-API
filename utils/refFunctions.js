@@ -43,19 +43,20 @@ const checkArticleKeys = (body) => {
 };
 
 const checkArticleKeysDataTypes = (body) => {
-  if (typeof body.title === 'string' && typeof body.body === 'string' && typeof body.topic === 'string' && typeof body.username === 'string') {
+  if (typeof body.title === 'string' && typeof body.body === 'string' && typeof body.topic === 'string' && typeof body.username === 'string' && body.title.length > 0 && body.body.length > 0) {
     return true;
   }
   return false;
 };
 
 const checkCommentKeys = (body) => {
-  if (body.hasOwnProperty('username') && body.hasOwnProperty('body')) return true;
+  if (body.hasOwnProperty('username') && body.hasOwnProperty('body')  > 0 && body.username.length > 0 && body.body.length > 0) return true;
   return false;
 };
 
 const checkCommentKeysDataTypes = (body) => {
-  if (typeof body.username === 'string' && typeof body.body === 'string') return true;
+  if (typeof body.username === 'string' && typeof body.body === 'string' && body.body.length) {
+    return true};
   return false;
 };
 
@@ -66,7 +67,7 @@ const checkUserKeys = (body) => {
 
 const checkUserKeysDataTypes = (body) => {
   if (body.hasOwnProperty('avatar_url')) {
-    if (typeof body.avatar_url !== 'string') return false;
+    if (typeof body.avatar_url !== 'string' || body.username.length <= 0 || body.name.length <= 0) return false;
   }
   if (typeof body.username === 'string' && typeof body.name === 'string') return true;
   return false;

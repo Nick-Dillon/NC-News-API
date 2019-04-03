@@ -8,7 +8,7 @@ exports.fetchTopics = ((req, res, next) => {
 });
 
 exports.postTopic = ((req, res, next) => {
-  if (req.body.slug === undefined || req.body.description === undefined) next({ status: 400, message: 'Missing information from the post request!' });
+  if (req.body.slug === undefined || req.body.description === undefined || req.body.slug.length <= 0 || req.body.description.length <= 0) next({ status: 400, message: 'Missing information from the post request!' });
   if (typeof req.body.slug !== 'string' || typeof req.body.description !== 'string') next({ status: 400, message: 'Invalid type of data given for post request - make sure to use the correct data-types!' });
   else {
     return createTopic(req.body)

@@ -60,14 +60,18 @@ const fetchArticleComments = (req, res, next) => {
 
 const postComment = (req, res, next) => {
   const article_id = req.params.article_id;
-  const comment = { body: req.body.body, author: req.body.username, article_id };
   getSpecificArticle(article_id)
   .then((result) => {
     if (result.length === 0) {
       res.status(404).send({ message: "Article not found!" })
     }
   })
-  createComment(comment)
+  if (!checkCommentKeys(req.body)) res.status(400).send({ message: 'Missing information from the post request!' });
+  if (!checkCommentKeysDataTypes(req.body)) {
+    res.status(400).send({ message: 'Invalid type of data given for post request - make sure to use the correct data-types!' });
+  }
+  const comment = { body: req.body.body, author: req.body.username, article_id };
+   createComment(comment)
     .then(([createdComment]) => {
       res.status(201).send({ createdComment });
     })
