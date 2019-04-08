@@ -12,7 +12,7 @@ describe('CRUD tests', () => {
   beforeEach(() => connection.seed.run());
   after(() => connection.destroy());
 
-  describe.only('/topics', () => {
+  describe('/topics', () => {
     describe('/requests', () => {
       it('GET returns 200, returns all the topics to the user', () => request.get('/api/topics').expect(200)
         .then((res) => {
@@ -36,7 +36,7 @@ describe('CRUD tests', () => {
           });
       });
     });
-    describe('/error handling', () => {
+    describe.only('/error handling', () => {
       it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
@@ -56,6 +56,10 @@ describe('CRUD tests', () => {
       it('DUPLICATION status:422, returns message stating topic already exists', () => request.post('/api/topics').send({ slug: 'cats', description: 'This should fail!' }).expect(422)
         .then((res) => {
           expect(res.body.message).to.equal('Sorry, that already exists!');
+        }));
+      it('UNPROCESSABLE ENTITY status:422, returns message stating fields must be filled in correctly', () => request.post('/api/topics').send({ slug: ' ', description: ' ' }).expect(422)
+        .then((res) => {
+          expect(res.body.message).to.equal("You can't just have spaces for your topic... write something!");
         }));
     });
   });

@@ -34,6 +34,7 @@ const handle422 = (err, req, res, next) => {
     23505: 'Sorry, that already exists!',
   };
   if (codes[err.code]) res.status(422).send({ message: codes[err.code] });
+  else if (err.status === 422) res.status(422).send({ message: err.message })
   else {
     next(err);
   }
