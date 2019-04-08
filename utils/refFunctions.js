@@ -81,11 +81,6 @@ const checkPatchAttempt = (body) => {
   }
 };
 
-const whitespaceChecker = (body) => {
-  const regex = /[ ]+/;
-  return body.match(regex);
-}
-
 module.exports = {
-  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys, checkUserKeysDataTypes, checkPatchAttempt, whitespaceChecker
+  createdByToAuthor, createArticleRef, belongsToToArticleId, formatDate, columnChecker, checkArticleKeys, checkArticleKeysDataTypes, checkCommentKeys, checkCommentKeysDataTypes, checkUserKeys, checkUserKeysDataTypes, checkPatchAttempt
 };

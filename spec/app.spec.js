@@ -36,7 +36,7 @@ describe('CRUD tests', () => {
           });
       });
     });
-    describe.only('/error handling', () => {
+    describe('/error handling', () => {
       it('BAD REQUEST status:400, returns error message when post request does not contain enough data', () => request.post('/api/topics').send({ description: 'no slug!' }).expect(400)
         .then((res) => {
           expect(res.body.message).to.equal('Missing information from the post request!');
@@ -56,10 +56,6 @@ describe('CRUD tests', () => {
       it('DUPLICATION status:422, returns message stating topic already exists', () => request.post('/api/topics').send({ slug: 'cats', description: 'This should fail!' }).expect(422)
         .then((res) => {
           expect(res.body.message).to.equal('Sorry, that already exists!');
-        }));
-      it('UNPROCESSABLE ENTITY status:422, returns message stating fields must be filled in correctly', () => request.post('/api/topics').send({ slug: ' ', description: ' ' }).expect(422)
-        .then((res) => {
-          expect(res.body.message).to.equal("You can't just have spaces for your topic... write something!");
         }));
     });
   });
@@ -375,7 +371,6 @@ describe('CRUD tests', () => {
       .then((res) => {
         expect(res.body.message).to.equal('Method not allowed!');
       }));
-
     });
   });
   describe('/api', () => {
