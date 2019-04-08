@@ -102,7 +102,7 @@ const fetchSpecificArticle = (req, res, next) => {
       if (article === undefined) {
         return Promise.reject({ status: 404, message: 'Article not found!' });
       }
-      res.status(200).send({ article });
+      else res.status(200).send({ article });
     })
     .catch(next);
 };
