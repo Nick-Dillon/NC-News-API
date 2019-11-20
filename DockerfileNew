@@ -1,0 +1,14 @@
+# THIS IS THE SOLUTION SUGGESTED BY NORTHCODERS
+
+FROM node
+
+WORKDIR /app
+
+COPY package*.json ./         # this would copy any package file that starts with package and ends in .json - copied into the current location
+
+RUN npm install
+
+COPY . .
+
+CMD ["npm", "run", "migrate-and-start"]        # We will build the migrate-and-start script in the package.json file
+                                               #"migrate-and-start": "npm run migrate-latest && npm start"
